@@ -1,13 +1,48 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .videos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem;
+  background-color: #f4f4f4;
+} */
+
+/* .videoContainer {
+  background-color: white;
+  padding-top: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+} */
+
+.videoPair {
+  display: flex;
+  flex-direction: row; /* Display videos in the pair side by side */
+  gap: 2rem; /* Spacing between dance and tutorial videos */
+  align-items: start; /* Align videos at the top */
+  justify-content: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.video-info {
+  width: 500px;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h3,
+p {
+  /* margin: 0 0 1rem 0; */
+  font-family: "Arial", sans-serif;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: -10px;
+}
+h3 {
+  margin-bottom: 30px;
 }
