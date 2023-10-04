@@ -1,6 +1,5 @@
-import "./index.css";
 import React, { useState, useEffect } from "react";
-import supabase from "./supabase";
+import supabase from "../services/supabase";
 import VideoRow from "./VideoRow";
 
 function VideosList() {
@@ -25,8 +24,6 @@ function VideosList() {
 
     fetchVideos();
   }, []);
-
-  //   console.log(videos);
 
   return (
     <div className="flex flex-col p-20 pt-14 bg-gray-100 divide-y-2">

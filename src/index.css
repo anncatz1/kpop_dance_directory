@@ -17,13 +17,13 @@
   border-radius: 8px;
 } */
 
-.videoPair {
+/* .videoPair {
   display: flex;
-  flex-direction: row; /* Display videos in the pair side by side */
-  gap: 2rem; /* Spacing between dance and tutorial videos */
-  align-items: start; /* Align videos at the top */
+  flex-direction: row; 
+  gap: 2rem; 
+  align-items: start; 
   justify-content: center;
-}
+} */
 
 .video-info {
   width: 500px;

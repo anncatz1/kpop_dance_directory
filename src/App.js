@@ -1,8 +1,5 @@
-// import VideosList from "./VideosList_old";
-// import Video from "./Video";
-// import VideosList2 from "./VideosList_work";
-import Header from "./Header";
-import VideosList from "./VideosList";
+import Header from "./components/Header";
+import VideosList from "./components/VideosList";
 
 function App() {
   return (

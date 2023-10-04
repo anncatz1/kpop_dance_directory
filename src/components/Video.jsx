@@ -1,7 +1,6 @@
 import React from "react";
 // import YouTube from "react-youtube";
 import ReactPlayer from "react-player";
-import "./index.css";
 
 function Video({ url }) {
   return (
