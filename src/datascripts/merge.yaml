@@ -1,0 +1,81 @@
+drymerge/supabase/fetchTutorialTitles.api:
+  request:
+    method: GET
+    url:
+      dry_string: "https://your-supabase-endpoint.com/dance_tutorial_vids"
+    headers:
+      Authorization:
+        dry_string: "Bearer {{context.supabase_api_key}}"
+
+drymerge/supabase/fetchPracticeTitles.api:
+  request:
+    method: GET
+    url:
+      dry_string: "https://your-supabase-endpoint.com/dance_practice_vids"
+    headers:
+      Authorization:
+        dry_string: "Bearer {{context.supabase_api_key}}"
+
+drymerge/custom/matchTitles.api:
+  request:
+    method: POST
+    url:
+      dry_string: "https://your-custom-endpoint/match_titles"
+    body:
+      tutorials:
+        dry_string: "{{context.tutorial_titles}}"
+      practices:
+        dry_string: "{{context.practice_titles}}"
+  dependencies:
+    tutorial_titles:
+      id: drymerge/supabase/fetchTutorialTitles.api
+    practice_titles:
+      id: drymerge/supabase/fetchPracticeTitles.api
+
+drymerge/supabase/checkInDances.api:
+  request:
+    method: GET
+    url:
+      dry_string: "https://your-supabase-endpoint.com/dances?title=eq.{{context.matched_title}}"
+    headers:
+      Authorization:
+        dry_string: "Bearer {{context.supabase_api_key}}"
+  dependencies:
+    matched_title:
+      id: drymerge/custom/matchTitles.api
+
+drymerge/supabase/insertToDances.api:
+  request:
+    method: POST
+    url:
+      dry_string: "https://your-supabase-endpoint.com/dances"
+    headers:
+      Authorization:
+        dry_string: "Bearer {{context.supabase_api_key}}"
+      Content-Type: "application/json"
+    body:
+      title:
+        dry_string: "{{context.matched_title}}"
+      tutorial_url:
+        dry_string: "{{context.tutorial_url}}"
+      practice_url:
+        dry_string: "{{context.practice_url}}"
+      tutorial_fk:
+        dry_string: "{{context.tutorial_fk}}"
+      practice_fk:
+        dry_string: "{{context.practice_fk}}"
+  dependencies:
+    matched_title:
+      id: drymerge/custom/matchTitles.api
+    tutorial_url:
+      id: drymerge/custom/matchTitles.api
+    practice_url:
+      id: drymerge/custom/matchTitles.api
+    tutorial_fk:
+      id: drymerge/custom/matchTitles.api
+    practice_fk:
+      id: drymerge/custom/matchTitles.api
+    exists:
+      id: drymerge/supabase/checkInDances.api
+  condition:
+    dry_string: "{{!context.exists}}"
