@@ -17,11 +17,18 @@ const Main = styled.main`
 `;
 
 const Container = styled.div`
-  max-width: 120rem;
+  /* max-width: 120rem; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   /* gap: 3.2rem; */
+  @media (min-width: 2360px) {
+    padding: 0rem 6rem;
+  }
+  /*
+  @media (min-width: 1000px) {
+    padding: 0rem 3rem;
+  } */
 `;
 
 function AppLayout() {

@@ -10,7 +10,7 @@ const ITEMS_PER_PAGE = 5;
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
 
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
@@ -18,8 +18,8 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 150px 150px 625px 1fr;
-  column-gap: 0.5rem;
+  grid-template-columns: 100px 100px 2fr 3fr;
+  column-gap: 1.5rem;
   align-items: center;
   justify-items: center;
 
@@ -29,7 +29,7 @@ const TableHeader = styled.header`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
-  padding: 1.6rem 0rem;
+  padding: 1.6rem 0.5rem;
 `;
 
 function VideosTable() {
@@ -75,7 +75,7 @@ function VideosTable() {
   const [searchParams] = useSearchParams();
 
   // filter
-  const filterValue = searchParams.get("discount") || "all";
+  const filterValue = searchParams.get("type") || "all";
 
   let filteredCabins;
   // if (filterValue === "all") filteredCabins = cabins;

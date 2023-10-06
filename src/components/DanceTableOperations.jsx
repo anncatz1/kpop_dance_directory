@@ -9,7 +9,7 @@ function DanceTableOperations() {
   return (
     <div className="flex items-center gap-6 mb-8">
       <Filter
-        filterField={"discount"}
+        filterField={"type"}
         options={[
           { value: "all", label: "All" },
           { value: "mirrored", label: "Mirrored" },
