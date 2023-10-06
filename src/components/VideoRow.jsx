@@ -4,10 +4,10 @@ import styled from "styled-components";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 100px 100px 1fr 1fr;
-  column-gap: 1rem;
+  column-gap: 2rem;
   align-items: center;
   justify-items: center;
-  padding: 0rem 1rem;
+  padding: 0rem 2rem 0rem 1rem;
   border-bottom: 1px solid slategray;
   overflow-x: auto;
 
@@ -21,10 +21,10 @@ const TutorialBox = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  column-gap: 2rem;
+  /* column-gap: 2rem; */
   align-items: center;
   justify-content: center;
-  padding: 3rem 1rem;
+  padding: 3rem 0rem;
   max-width: 720px;
   & > * {
     // target direct children, which in this case is the video
@@ -44,7 +44,7 @@ const TableRow1Vid = styled.div`
   column-gap: 2rem;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1rem;
+  padding: 3rem 0rem;
   max-width: 720px;
   & > * {
     // target direct children, which in this case is the video
@@ -62,10 +62,10 @@ const TableRow2Vid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   overflow-x: auto; // show horizontal scrollbar if needed
-  column-gap: 1rem;
+  column-gap: 2rem;
   align-items: center; // center the videos vertically
   justify-content: start; // start the videos from the left
-  padding: 3rem 1rem;
+  padding: 3rem 0rem;
 `;
 
 function VideoRow({ row }) {
