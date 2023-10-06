@@ -101,13 +101,18 @@ function VideosTable() {
   // function compareNumbers(a, b) {
   //   return (a[field] - b[field]) * modifier;
   // }
-  const sortBy = searchParams.get("sort") || "song-asc";
+  const sortBy = searchParams.get("sort") || "date-desc";
   const [field, direction] = sortBy.split("-");
   const modifier = direction === "asc" ? 1 : -1;
   const sortedVideos = videos.sort(compareText);
 
+  let filteredVideos;
+  const filterArtist = searchParams.get("artist") || "All";
+  if (filterArtist === "All") filteredVideos = sortedVideos;
+  else filteredVideos = videos.filter((video) => video.artist === filterArtist);
+
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
-  const rangeVids = sortedVideos.slice(start, start + ITEMS_PER_PAGE);
+  const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
   // console.log(rangeVids);
 
   // typeof videos[0][field] === "number"

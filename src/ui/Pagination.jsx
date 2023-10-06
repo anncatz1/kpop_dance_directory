@@ -1,4 +1,5 @@
 const ITEMS_PER_PAGE = 5;
+
 export default function Pagination({ currentPage, totalVideos, onPageChange }) {
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
 

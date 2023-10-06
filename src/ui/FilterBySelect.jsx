@@ -1,24 +1,25 @@
 import { useSearchParams } from "react-router-dom";
-import Select from "./Select";
+import Select2 from "./Select2";
 
-function SortBy({ options }) {
+function FilterBySelect({ options }) {
+  // console.log(options);
   const [searchParams, setSearchParams] = useSearchParams();
-  const sortBy = searchParams.get("sort") || "";
+  const sortBy = searchParams.get("artist") || "";
 
   function handleChange(e) {
-    searchParams.set("sort", e.target.value);
+    searchParams.set("artist", e.target.value);
     setSearchParams(searchParams);
   }
 
   return (
-    <Select
+    <Select2
       options={options}
       type="white"
       value={sortBy}
       onChange={handleChange}
-      field={"value"}
+      field={"Name"}
     />
   );
 }
 
-export default SortBy;
+export default FilterBySelect;
