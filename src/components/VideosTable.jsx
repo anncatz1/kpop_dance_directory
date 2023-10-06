@@ -5,8 +5,8 @@ import { useQuery, useQueryClient, useInfiniteQuery } from "react-query";
 
 import supabase from "../services/supabase";
 import VideoRow from "./VideoRow";
-// import Pagination from "../ui/Pagination";
 import Spinner from "../ui/Spinner";
+import { Pagination, Typography } from "@mui/material";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -36,9 +36,10 @@ const TableHeader = styled.header`
 
 function VideosTable() {
   // const [videos, setVideos] = useState([]);
-  // const [totalVideos, setTotalVideos] = useState(0);
-  const [page, setPage] = useState(1);
-  const [searchParams] = useSearchParams();
+  const [totalVideos, setTotalVideos] = useState(0);
+  // const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page")) || 1;
 
   // const queryClient = useQueryClient();
 
@@ -83,9 +84,9 @@ function VideosTable() {
     try {
       const start = (pageParam - 1) * ITEMS_PER_PAGE;
 
-      const { data, error } = await supabase
+      const { data, count, error } = await supabase
         .from("dances")
-        .select("*")
+        .select("*", { count: "exact" })
         .range(start, start + ITEMS_PER_PAGE - 1);
       // .range(pageParam, pageParam);
       // console.log("page", pageParam - 1);
@@ -96,7 +97,7 @@ function VideosTable() {
       if (error) throw error;
       // setVideos(data);
 
-      // setTotalVideos(count);
+      setTotalVideos(count);
       // console.log("supabase", data);
       return data;
     } catch (error) {
@@ -106,14 +107,18 @@ function VideosTable() {
 
   const handlePrevious = () => {
     if (page > 1) {
-      setPage(page - 1);
+      // setPage(page - 1);
+      searchParams.set("page", page - 1);
+      setSearchParams(searchParams);
     }
     // () => setPage((old) => Math.max(old - 1, 1))
   };
 
   const handleNext = () => {
-    if (!isPreviousData && videos.length === ITEMS_PER_PAGE) {
-      setPage(page + 1);
+    if (!isPreviousData && page < totalPages) {
+      // setPage(page + 1);
+      searchParams.set("page", page + 1);
+      setSearchParams(searchParams);
     }
     // if () {
     //   setPage((old) => old + 1);
@@ -165,6 +170,13 @@ function VideosTable() {
   //   ? filteredCabins.sort(compareNumbers)
   //   : filteredCabins.sort(compareText);
 
+  const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
+
+  function handlePage(event, value) {
+    searchParams.set("page", value);
+    setSearchParams(searchParams);
+  }
+
   return (
     <>
       <Table role="table">
@@ -200,23 +212,34 @@ function VideosTable() {
           : "Nothing more to load"}
       </button>
       <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div> */}
-      <span>Current Page: {page}</span>
-      <button
-        className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
-        onClick={handlePrevious}
-        disabled={page === 1}
-      >
-        Previous Page
-      </button>{" "}
-      <button
-        className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
-        onClick={handleNext}
-        // Disable the Next Page button until we know a next page is available
-        // disabled={isPreviousData || !videos?.hasMore}
-      >
-        Next Page
-      </button>
-      {isFetching ? <span> Loading...</span> : null}{" "}
+      {/* <span>Current Page: {page}</span> */}
+      <div className="flex justify-between my-3">
+        <button
+          className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
+          onClick={handlePrevious}
+          disabled={page === 1}
+        >
+          Previous Page
+        </button>{" "}
+        <button
+          className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50 disabled:bg-gray-300"
+          onClick={handleNext}
+          disabled={page === totalPages}
+        >
+          Next Page
+        </button>
+      </div>
+      <Typography>Page: {page}</Typography>
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={handlePage}
+        color="secondary"
+        showFirstButton
+        showLastButton
+      />
+
+      {/* {isFetching ? <span> Loading...</span> : null}{" "} */}
       {/* <div className="flex justify-between mt-4">
         <button
           onClick={handlePrevious}
