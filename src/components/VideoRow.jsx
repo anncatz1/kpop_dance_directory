@@ -8,12 +8,16 @@ const TableRow = styled.div`
   align-items: center;
   justify-items: center;
   padding: 0rem 2rem 0rem 1rem;
-  border-bottom: 1px solid slategray;
   overflow-x: auto;
+  /* border-bottom: 1px solid slategray; */
 
   @media (max-width: 1250px) {
     grid-template-columns: 1fr;
     padding: 2rem 3rem;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgray;
   }
 `;
 

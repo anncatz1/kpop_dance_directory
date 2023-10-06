@@ -65,8 +65,17 @@ function VideosTable() {
   async function fetchVideos(pageParam, sortBy = "date-desc") {
     try {
       const start = (pageParam - 1) * ITEMS_PER_PAGE;
-      const [field, direction] = sortBy.split("-");
+      let [field, direction] = sortBy.split("-");
       // const modifier = direction === "asc" ? 1 : -1;
+
+      // const { data, error: error2 } = await supabase.rpc(
+      //   create function lower_name(s_users_lists s) returns text as $$
+      //   select lower(s.name);
+      // $$ language sql;
+      // );
+      // console.log(data, error2);
+      if (field === "artist") field = "lower_artist";
+
       const {
         data: videos,
         count,
@@ -76,6 +85,7 @@ function VideosTable() {
         .select("*", { count: "exact" })
         .order(field, { ascending: direction === "asc" });
       // .range(start, start + ITEMS_PER_PAGE - 1);
+      // console.log(videos);
 
       let filteredVideos;
       if (filterArtist === "All") filteredVideos = videos;
@@ -85,12 +95,6 @@ function VideosTable() {
         );
 
       const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
-
-      // dataHere = data;
-
-      // let dataHere;
-      // let countHere;
-      // let errorHere;
 
       // if (artist !== "All") {
       //   const { data, count, error } = await supabase
@@ -114,7 +118,7 @@ function VideosTable() {
       // .range(pageParam, pageParam);
       // .eq("mirror", true);
       // .order("date", { ascending: false })
-
+      // if (filterArtist !== "All") setPageTo1();
       if (error) throw error;
       setTotalVideos(count);
       return rangeVids;
@@ -177,6 +181,11 @@ function VideosTable() {
   // typeof videos[0][field] === "number"
   //   ? filteredCabins.sort(compareNumbers)
   //   : filteredCabins.sort(compareText);
+
+  function setPageTo1() {
+    searchParams.set("page", 1);
+    setSearchParams(searchParams);
+  }
 
   function handlePage(event, value) {
     searchParams.set("page", value);

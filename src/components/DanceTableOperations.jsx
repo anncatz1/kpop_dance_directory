@@ -4,6 +4,7 @@ import supabase from "../services/supabase";
 import FilterBySelect from "../ui/FilterBySelect";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
+import { FormLabel } from "@mui/material";
 
 function DanceTableOperations() {
   const [artists, setArtists] = useState([]);
@@ -47,9 +48,12 @@ function DanceTableOperations() {
           { value: "date-desc", label: "Sort by date (latest first)" },
           { value: "date-asc", label: "Sort by date (earliest first)" },
           { value: "song-asc", label: "Sort by song title (A-Z)" },
+          { value: "song-desc", label: "Sort by song title (Z-A)" },
+          { value: "artist-asc", label: "Sort by artist (A-Z)" },
         ]}
       />
 
+      <FormLabel>Filter by Artist: </FormLabel>
       <FilterBySelect options={allItems} />
     </div>
   );
