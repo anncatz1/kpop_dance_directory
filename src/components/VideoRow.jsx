@@ -4,10 +4,10 @@ import styled from "styled-components";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 100px 100px 1fr 1fr;
-  column-gap: 1.5rem;
+  column-gap: 1rem;
   align-items: center;
   justify-items: center;
-  padding: 0rem 0.5rem;
+  padding: 0rem 1rem;
   border-bottom: 1px solid slategray;
   overflow-x: auto;
 

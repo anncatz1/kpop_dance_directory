@@ -20,7 +20,7 @@ const Table = styled.div`
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 100px 100px 2fr 3fr;
-  column-gap: 1.5rem;
+  column-gap: 1rem;
   align-items: center;
   justify-items: center;
 
@@ -30,34 +30,39 @@ const TableHeader = styled.header`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
-  padding: 1.6rem 0.5rem;
+  padding: 1.6rem 1rem;
 `;
 
 function VideosTable() {
   const [videos, setVideos] = useState([]);
   const [totalVideos, setTotalVideos] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    fetchVideos(currentPage);
-  }, [currentPage]);
+    fetchVideos();
+  }, []);
 
-  const fetchVideos = async (page) => {
+  async function fetchVideos(page) {
     try {
-      const start = (page - 1) * ITEMS_PER_PAGE;
+      // const start = (page - 1) * ITEMS_PER_PAGE;
+
+      // if (mirror === true) {
       const { data, count, error } = await supabase
         .from("dances")
-        .select("*", { count: "exact" })
-        .order("date", { ascending: false })
-        .range(start, start + ITEMS_PER_PAGE - 1);
+        .select("*", { count: "exact" });
+      // .range(start, start + ITEMS_PER_PAGE - 1);
+      // .eq("mirror", true);
+      // .order("date", { ascending: false })
 
+      // console.log(data);
       if (error) throw error;
       setVideos(data);
       setTotalVideos(count);
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
-  };
+  }
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -73,15 +78,13 @@ function VideosTable() {
 
   // const { isLoading, cabins } = useCabins();
   // if (isLoading) return <Spinner />;
-  const [searchParams] = useSearchParams();
-
   // filter
-  const filterValue = searchParams.get("type") || "all";
 
-  let filteredCabins;
+  // const mirror = searchParams.get("mirrored");
+  // let dancePractices;
   // if (filterValue === "all") filteredCabins = cabins;
-  // if (filterValue === "no-discount")
-  //   filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+  // if (mirror === true)
+  //   dancePractices = videos.filter((cabin) => cabin.discount === 0);
   // if (filterValue === "with-discount")
   //   filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
@@ -95,17 +98,21 @@ function VideosTable() {
     }
     return 0;
   }
-  function compareNumbers(a, b) {
-    return (a[field] - b[field]) * modifier;
-  }
-
-  const sortBy = searchParams.get("sort") || "name-asc";
+  // function compareNumbers(a, b) {
+  //   return (a[field] - b[field]) * modifier;
+  // }
+  const sortBy = searchParams.get("sort") || "song-asc";
   const [field, direction] = sortBy.split("-");
   const modifier = direction === "asc" ? 1 : -1;
-  // const sortedCabins =
-  //   typeof cabins[0][field] === "number"
-  //     ? filteredCabins.sort(compareNumbers)
-  //     : filteredCabins.sort(compareText);
+  const sortedVideos = videos.sort(compareText);
+
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const rangeVids = sortedVideos.slice(start, start + ITEMS_PER_PAGE);
+  // console.log(rangeVids);
+
+  // typeof videos[0][field] === "number"
+  //   ? filteredCabins.sort(compareNumbers)
+  //   : filteredCabins.sort(compareText);
 
   return (
     <>
@@ -118,7 +125,7 @@ function VideosTable() {
           {/* <div>Tutorial Pt. 2</div> */}
         </TableHeader>
 
-        {videos.map((row, index) => (
+        {rangeVids.map((row, index) => (
           <VideoRow key={index} row={row} />
         ))}
       </Table>
@@ -144,7 +151,6 @@ function VideosTable() {
         onPageChange={setCurrentPage}
       />
     </>
-    // </div>
   );
 }
 
