@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
+
 import supabase from "../services/supabase";
 import VideoRow from "./VideoRow";
 import Pagination from "../ui/Pagination";
-import styled from "styled-components";
-import { useSearchParams } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -107,10 +108,7 @@ function VideosTable() {
   //     : filteredCabins.sort(compareText);
 
   return (
-    // <div className="flex flex-col p-20 pt-14 divide-y-2">
-    // <div>
     <>
-      {/* <h1 className="text-2xl mb-5">Dance Practice Vids and Tutorials</h1> */}
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>
