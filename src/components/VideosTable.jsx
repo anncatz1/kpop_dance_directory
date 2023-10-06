@@ -8,7 +8,7 @@ import VideoRow from "./VideoRow";
 // import Pagination from "../ui/Pagination";
 import Spinner from "../ui/Spinner";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 8;
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -37,7 +37,7 @@ const TableHeader = styled.header`
 function VideosTable() {
   // const [videos, setVideos] = useState([]);
   // const [totalVideos, setTotalVideos] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
 
   // const queryClient = useQueryClient();
@@ -49,29 +49,37 @@ function VideosTable() {
   //   // ...config,
   // });
 
+  // const {
+  //   data: videos,
+  //   error,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetching,
+  //   isFetchingNextPage,
+  //   status,
+  // } = useInfiniteQuery({
+  //   queryKey: ["dancesInf"],
+  //   queryFn: fetchVideos,
+  //   getNextPageParam: (lastPage, pages) => pages.length,
+  // });
+  // select: (data) => ({
+  //   pages: [...data.pages].reverse(),
+  //   pageParams: [...data.pageParams].reverse(),
+  // }),
   const {
-    data: videos,
+    isLoading,
+    isError,
     error,
-    fetchNextPage,
-    hasNextPage,
+    data: videos,
     isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ["dancesInf"],
-    queryFn: fetchVideos,
-    getNextPageParam: (lastPage, pages) => pages.length,
-    // select: (data) => ({
-    //   pages: [...data.pages].reverse(),
-    //   pageParams: [...data.pageParams].reverse(),
-    // }),
+    isPreviousData,
+  } = useQuery({
+    queryKey: ["dances", page],
+    queryFn: () => fetchVideos(page),
+    keepPreviousData: true,
   });
 
-  // useEffect(() => {
-  //   fetchVideos();
-  // }, []);
-
-  async function fetchVideos({ pageParam = 0 }) {
+  async function fetchVideos(pageParam) {
     try {
       const start = (pageParam - 1) * ITEMS_PER_PAGE;
 
@@ -97,15 +105,19 @@ function VideosTable() {
   }
 
   const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+    if (page > 1) {
+      setPage(page - 1);
     }
+    // () => setPage((old) => Math.max(old - 1, 1))
   };
 
   const handleNext = () => {
-    if (videos.length === ITEMS_PER_PAGE) {
-      setCurrentPage(currentPage + 1);
+    if (!isPreviousData && videos.length === ITEMS_PER_PAGE) {
+      setPage(page + 1);
     }
+    // if () {
+    //   setPage((old) => old + 1);
+    // }
   };
 
   // const { isLoading, cabins } = useCabins();
@@ -134,7 +146,7 @@ function VideosTable() {
   //   return (a[field] - b[field]) * modifier;
   // }
   // console.log(videos);
-  if (status === "loading") return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   // const sortBy = searchParams.get("sort") || "date-desc";
   // const [field, direction] = sortBy.split("-");
@@ -164,16 +176,19 @@ function VideosTable() {
           {/* <div>Tutorial Pt. 2</div> */}
         </TableHeader>
 
-        {videos.pages.map((group, i) => (
+        {videos.map((row, index) => (
+          <VideoRow key={index} row={row} />
+        ))}
+
+        {/* {videos.pages.map((group, i) => (
           <React.Fragment key={i}>
             {group.map((row, index) => (
               <VideoRow key={index} row={row} />
             ))}
           </React.Fragment>
-        ))}
+        ))} */}
       </Table>
-
-      <button
+      {/* <button
         className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
         onClick={() => fetchNextPage()}
         disabled={!hasNextPage || isFetchingNextPage}
@@ -184,7 +199,24 @@ function VideosTable() {
           ? "Load More"
           : "Nothing more to load"}
       </button>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div> */}
+      <span>Current Page: {page}</span>
+      <button
+        className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
+        onClick={handlePrevious}
+        disabled={page === 1}
+      >
+        Previous Page
+      </button>{" "}
+      <button
+        className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
+        onClick={handleNext}
+        // Disable the Next Page button until we know a next page is available
+        // disabled={isPreviousData || !videos?.hasMore}
+      >
+        Next Page
+      </button>
+      {isFetching ? <span> Loading...</span> : null}{" "}
       {/* <div className="flex justify-between mt-4">
         <button
           onClick={handlePrevious}
@@ -199,12 +231,12 @@ function VideosTable() {
         >
           Next
         </button>
-      </div>
-      <Pagination
+      </div> */}
+      {/* <Pagination
         currentPage={currentPage}
         totalVideos={totalVideos}
         onPageChange={setCurrentPage}
-      /> */}
+      />  */}
     </>
   );
 }
