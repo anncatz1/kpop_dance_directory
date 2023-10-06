@@ -1,12 +1,21 @@
-import Header from "./components/Header";
-import VideosList from "./components/VideosList";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+// import Header from "./ui/Header";
+import Videos from "./pages/Videos";
+import AppLayout from "./ui/AppLayout";
+import GlobalStyles from "./services/GlobalStyles";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <VideosList />
-    </div>
+    <>
+      {/* <GlobalStyles /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Videos />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

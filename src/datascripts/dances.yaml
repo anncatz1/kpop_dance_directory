@@ -2,7 +2,7 @@ drymerge/supabase/fetchTutorialTitles.api:
   request:
     method: GET
     url:
-      dry_string: "https://your-supabase-endpoint.com/dance_tutorial_vids"
+      dry_string: "https://onmcnotmyeildgqtsbwl.supabase.co/rest/v1/dance_tutorial_videos?select=title"
     headers:
       Authorization:
         dry_string: "Bearer {{context.supabase_api_key}}"

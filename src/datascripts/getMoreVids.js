@@ -17,7 +17,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function searchYouTube(query) {
   const query1 = query + "Dance Practice";
-  //   const API_KEY = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c";
+  // const API_KEY = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c";
   const API_KEY = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
   const BASE_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
     query1
@@ -71,7 +71,8 @@ async function processTutorials() {
     .select("id, song")
     .eq("tutorial", "tutorial")
     .eq("slowed", false)
-    .order("date", { ascending: false });
+    .order("date", { ascending: false })
+    .lt("date", "05/03/2019");
 
   if (tutorialError) {
     console.error("Error fetching tutorial videos:", tutorialError);
@@ -101,8 +102,8 @@ async function addToDatabase(videos, title) {
 
   const { data, error } = await supabase
     .from("dance_practice_videos")
-    .select("title")
-    .eq("title", title)
+    .select("song")
+    .ilike("song", title)
     .limit(1);
 
   if (error) {
