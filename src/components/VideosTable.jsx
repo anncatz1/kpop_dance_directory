@@ -16,6 +16,7 @@ const Table = styled.div`
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
+  margin-bottom: 10px;
 `;
 
 const TableHeader = styled.header`
@@ -38,7 +39,7 @@ function VideosTable() {
   const [totalVideos, setTotalVideos] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  const artist = searchParams.get("artist") || "All";
+  const filterArtist = searchParams.get("artist") || "All";
   const sortBy = searchParams.get("sort") || "date-desc";
 
   // select: (data) => ({
@@ -53,9 +54,10 @@ function VideosTable() {
     isFetching,
     isPreviousData,
   } = useQuery({
-    queryKey: ["dances", page, sortBy],
+    queryKey: ["dances", page, sortBy, filterArtist],
     queryFn: () => fetchVideos(page, sortBy),
     keepPreviousData: true,
+    // select: (data) => data.filter((item) => item.artist === filterArtist),
   });
 
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
@@ -65,11 +67,24 @@ function VideosTable() {
       const start = (pageParam - 1) * ITEMS_PER_PAGE;
       const [field, direction] = sortBy.split("-");
       // const modifier = direction === "asc" ? 1 : -1;
-      const { data, count, error } = await supabase
+      const {
+        data: videos,
+        count,
+        error,
+      } = await supabase
         .from("dances")
         .select("*", { count: "exact" })
-        .order(field, { ascending: direction === "asc" })
-        .range(start, start + ITEMS_PER_PAGE - 1);
+        .order(field, { ascending: direction === "asc" });
+      // .range(start, start + ITEMS_PER_PAGE - 1);
+
+      let filteredVideos;
+      if (filterArtist === "All") filteredVideos = videos;
+      else
+        filteredVideos = videos.filter(
+          (video) => video.artist === filterArtist
+        );
+
+      const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
 
       // dataHere = data;
 
@@ -102,7 +117,7 @@ function VideosTable() {
 
       if (error) throw error;
       setTotalVideos(count);
-      return data;
+      return rangeVids;
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
@@ -185,7 +200,7 @@ function VideosTable() {
         ))}
       </Table>
 
-      <div className="flex justify-between my-3">
+      {/* <div className="flex justify-between my-3">
         <button
           className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
           onClick={handlePrevious}
@@ -200,9 +215,9 @@ function VideosTable() {
         >
           Next Page
         </button>
-      </div>
+      </div> */}
 
-      <Typography>Page: {page}</Typography>
+      {/* <Typography>Page: {page}</Typography> */}
       <Pagination
         count={totalPages}
         page={page}
