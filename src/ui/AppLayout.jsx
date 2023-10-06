@@ -25,6 +25,9 @@ const Container = styled.div`
   @media (min-width: 2360px) {
     padding: 0rem 6rem;
   }
+  @media (max-width: 1250px) {
+    padding: 0rem 5rem;
+  }
   /*
   @media (min-width: 1000px) {
     padding: 0rem 3rem;

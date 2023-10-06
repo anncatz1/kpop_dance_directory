@@ -10,6 +10,11 @@ const TableRow = styled.div`
   padding: 0rem 0.5rem;
   border-bottom: 1px solid slategray;
   overflow-x: auto;
+
+  @media (max-width: 1250px) {
+    grid-template-columns: 1fr;
+    padding: 2rem 3rem;
+  }
 `;
 
 const TutorialBox = styled.div`
@@ -26,6 +31,10 @@ const TutorialBox = styled.div`
     flex-grow: 1; // allows the video to grow
     min-width: 400px; // ensures a minimum width for the video
   }
+
+  @media (max-width: 1250px) {
+    padding: 1rem 5rem;
+  }
 `;
 
 const TableRow1Vid = styled.div`
@@ -41,6 +50,10 @@ const TableRow1Vid = styled.div`
     // target direct children, which in this case is the video
     flex-grow: 1; // allows the video to grow
     min-width: 400px; // ensures a minimum width for the video
+  }
+
+  @media (max-width: 1250px) {
+    padding: 1rem 5rem;
   }
 `;
 
