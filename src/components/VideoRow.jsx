@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 100px 100px 1fr 1fr;
+  grid-template-columns: 100px 1fr 1fr;
   column-gap: 2rem;
   align-items: center;
   justify-items: center;
@@ -72,18 +72,25 @@ const TableRow2Vid = styled.div`
   padding: 3rem 0rem;
 `;
 
-function VideoRow({ row }) {
+function VideoRow({ row, slowed }) {
   return (
     <TableRow>
-      <h4 className="text-center">
+      <h4 className="text-center space-y-2">
         <div>{row.song}</div>
         <div>{row.artist}</div>
+        <div>{row.date}</div>
       </h4>
-      <h4 className="text-center">{row.date}</h4>
       <TutorialBox>
         <Video url={row.dance_url} />
       </TutorialBox>
-      {row.tutorial_urls.at(1) ? (
+
+      {slowed === "true" ? (
+        <TableRow2Vid>
+          <Video url={row.tutorial_urls.at(0)} />
+          {row.tutorial_urls.at(1) && <Video url={row.tutorial_urls.at(1)} />}
+          <Video url={row.tutorial_slow_url} />
+        </TableRow2Vid>
+      ) : row.tutorial_urls.at(1) ? (
         <TableRow2Vid>
           <Video url={row.tutorial_urls.at(0)} />
           {row.tutorial_urls.at(1) && <Video url={row.tutorial_urls.at(1)} />}

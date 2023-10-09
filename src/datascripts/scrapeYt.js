@@ -9,17 +9,29 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const axios = require("axios");
 
-async function getVideos(channelId, apiKey, pageToken) {
+function extractBetweenQuotes(title) {
+  const matches = title.match(
+    /‘([^’]+)’|`([^`]+)`|'([^']+)'|“([^”]+)”|"([^"]+)"/
+  );
+  return matches
+    ? matches[1] || matches[2] || matches[3] || matches[4] || matches[5]
+    : null;
+}
+
+async function getVideos(channelId, apiKey, playlistId, pageToken) {
   try {
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=50`;
+    const url = `https://youtube.googleapis.com/youtube/v3/playlistItems?part=id%2Csnippet&playlistId=${playlistId}&key=${apiKey}&maxResults=50`;
+    // const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=50`;
     // const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&pageToken=${pageToken}&part=snippet,id&order=date&maxResults=50`;
     const response = await axios.get(url);
     const nextPageToken = response.data.nextPageToken;
     const videos = response.data.items.map((item) => ({
       title: item.snippet.title,
-      videoId: item.id.videoId,
-      publishedAt: item.snippet.publishedAt,
-      thumbnail: item.snippet.thumbnails.high,
+      videoId: item.snippet.resourceId.videoId,
+      date: item.snippet.publishedAt,
+      url: "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
+      difficulty: "beginner",
+      song: extractBetweenQuotes(item.snippet.title),
     }));
 
     // Insert video data into Supabase
@@ -32,6 +44,7 @@ async function getVideos(channelId, apiKey, pageToken) {
       throw error;
     }
 
+    // console.log(videos);
     console.log(nextPageToken);
     // if (
     //   nextPageToken !== "undefined" &&
@@ -43,10 +56,15 @@ async function getVideos(channelId, apiKey, pageToken) {
   }
 }
 
-// const channelID = "UC2V-OGycOYuUrKGmgrlVdoA" //leia
-const channelId = "UCxFPHT6xj7xmgTkf-vzXylQ"; // Replace with Savage Angel's channel ID
+const channelId = "UC2V-OGycOYuUrKGmgrlVdoA"; //leia
+// const playlistId = "PLkTUiSDs560YcFVPZwWMbWcktTr43bEKB"; //hard-intermediate
+// const playlistId = "PLkTUiSDs560ZuShD2wZ6pJq3tkHdd8iAB"; //advanced
+// const playlistId = "PLkTUiSDs560bJ7rrn78Z3OG60oWEzv512"; //intermediate
+const playlistId = "PLkTUiSDs560b8beFMQftfUfOFJE_j3P6G"; //beginner
+// const channelId = "UCxFPHT6xj7xmgTkf-vzXylQ"; // Savage Angel's channel ID
 // const apiKey = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c"; // Replace with your YouTube Data API key
 const apiKey = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
-const nextPageToken = "CDIQAA";
+const nextPageToken =
+  "EAAaKVBUOkNESWlFRUl3UlVGRlFrUkdSVEkxTUVRMU9UTW9BVEN3eVpDcEJn";
 // getVideos(channelId, apiKey);
-getVideos(channelId, apiKey, nextPageToken);
+getVideos(channelId, apiKey, playlistId, nextPageToken);

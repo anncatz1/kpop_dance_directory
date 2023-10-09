@@ -4,9 +4,14 @@ import supabase from "../services/supabase";
 import FilterBySelect from "../ui/FilterBySelect";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
-import { FormLabel } from "@mui/material";
+import {
+  FormLabel,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+} from "@mui/material";
 
-function DanceTableOperations() {
+function DanceTableOps() {
   const [artists, setArtists] = useState([]);
 
   useEffect(() => {
@@ -19,37 +24,47 @@ function DanceTableOperations() {
         .from("artists")
         .select("Name", { count: "exact" })
         .eq("Active", "Yes")
-        .eq("Famous", "Yes")
-        .limit(99);
-      // .range(start, start + ITEMS_PER_PAGE - 1);
-      // .eq("mirror", true);
-      // .order("date", { ascending: false })
+        .eq("Famous", "Yes");
+      // .order("Name");
+      // .limit(99);
 
-      // console.log(data);
       if (error) throw error;
       setArtists(data);
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
   }
+  artists.sort((a, b) =>
+    a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
+  );
   const firstItem = { Name: "All" };
   const allItems = [firstItem, ...artists];
 
   return (
     <div className="flex items-center gap-6 mb-8">
-      <SwitchButton filterField="mirrored" label="Mirrored" />
-      <SwitchButton filterField="slowed" label="Slowed" />
+      {/* <SwitchButton filterField="mirrored" label="Mirrored" /> */}
+      <SwitchButton filterField="slowed" label="Show Slowed" />
+      {/* <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              // checked={checked}
+              // onChange={handleChange}
+              inputProps={{ "aria-label": "controlled" }}
+            />
+          }
+          label="Slowed"
+        />
+      </FormGroup> */}
 
       <SortBy
         options={[
-          // { value: "name-desc", label: "Sort by name (Z-A)" },
-          // { value: "artist-asc", label: "Sort by artist (A-Z)" },
-          // { value: "regularPrice-desc", label: "Sort by price (high first)" },
-          { value: "date-desc", label: "Sort by date (latest first)" },
-          { value: "date-asc", label: "Sort by date (earliest first)" },
+          { value: "date-desc", label: "Sort by release date (latest first)" },
+          { value: "date-asc", label: "Sort by release date (earliest first)" },
           { value: "song-asc", label: "Sort by song title (A-Z)" },
           { value: "song-desc", label: "Sort by song title (Z-A)" },
           { value: "artist-asc", label: "Sort by artist (A-Z)" },
+          { value: "artist-desc", label: "Sort by artist (Z-A)" },
         ]}
       />
 
@@ -59,4 +74,4 @@ function DanceTableOperations() {
   );
 }
 
-export default DanceTableOperations;
+export default DanceTableOps;

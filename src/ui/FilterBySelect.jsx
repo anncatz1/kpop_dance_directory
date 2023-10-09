@@ -2,7 +2,6 @@ import { useSearchParams } from "react-router-dom";
 import Select2 from "./Select2";
 
 function FilterBySelect({ options }) {
-  // console.log(options);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortBy = searchParams.get("artist") || "";
 

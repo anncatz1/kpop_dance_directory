@@ -6,7 +6,8 @@ import { useQuery } from "react-query";
 import supabase from "../services/supabase";
 import VideoRow from "./VideoRow";
 import Spinner from "../ui/Spinner";
-import { Pagination, Typography } from "@mui/material";
+import { Pagination } from "@mui/material";
+import NoVideos from "../ui/NoVideos";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -21,7 +22,7 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 100px 100px 1fr 1fr;
+  grid-template-columns: 100px 1fr 1fr;
   column-gap: 2rem;
   align-items: center;
   justify-items: center;
@@ -42,14 +43,15 @@ function VideosTable() {
   const filterArtist = searchParams.get("artist") || "All";
   const sortBy = searchParams.get("sort") || "date-desc";
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
+  const slowed = searchParams.get("slowed") || "false";
 
   const {
     isLoading,
-    isError,
-    error,
+    // isError,
+    // error,
     data: videos,
-    isFetching,
-    isPreviousData,
+    // isFetching,
+    // isPreviousData,
   } = useQuery({
     queryKey: ["dances", page, sortBy, filterArtist],
     queryFn: () => fetchVideos(page, sortBy),
@@ -58,16 +60,12 @@ function VideosTable() {
 
   async function fetchVideos(pageParam, sortBy = "date-desc") {
     try {
-      const start = (pageParam - 1) * ITEMS_PER_PAGE;
+      // const start = (pageParam - 1) * ITEMS_PER_PAGE;
       let [field, direction] = sortBy.split("-");
       if (field === "artist") field = "lower_artist";
 
-      const {
-        data: videos,
-        count,
-        error,
-      } = await supabase
-        .from("dances")
+      const { data: videos, error } = await supabase
+        .from("dances_duplicate")
         .select("*", { count: "exact" })
         .order(field, { ascending: direction === "asc" });
 
@@ -82,26 +80,13 @@ function VideosTable() {
 
       if (error) throw error;
       setTotalVideos(filteredVideos.length);
-      return filteredVideos;
+      const start = (page - 1) * ITEMS_PER_PAGE;
+      const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
+      return rangeVids;
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
   }
-  const start = (page - 1) * ITEMS_PER_PAGE;
-  const rangeVids = videos.slice(start, start + ITEMS_PER_PAGE);
-  // const handlePrevious = () => {
-  //   if (page > 1) {
-  //     searchParams.set("page", page - 1);
-  //     setSearchParams(searchParams);
-  //   }
-  // };
-
-  // const handleNext = () => {
-  //   if (!isPreviousData && page < totalPages) {
-  //     searchParams.set("page", page + 1);
-  //     setSearchParams(searchParams);
-  //   }
-  // };
 
   // filter
 
@@ -124,38 +109,22 @@ function VideosTable() {
   }
 
   if (isLoading) return <Spinner />;
+  if (videos.length === 0) return <NoVideos />;
 
   return (
     <>
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>
-          <div>Date</div>
+          {/* <div>Date</div> */}
           <div>Practice</div>
           <div>Tutorials </div>
         </TableHeader>
 
-        {rangeVids.map((row, index) => (
-          <VideoRow key={index} row={row} />
+        {videos.map((row, index) => (
+          <VideoRow key={index} row={row} slowed={slowed} />
         ))}
       </Table>
-
-      {/* <div className="flex justify-between my-3">
-        <button
-          className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50"
-          onClick={handlePrevious}
-          disabled={page === 1}
-        >
-          Previous Page
-        </button>{" "}
-        <button
-          className="bg-purple-400 text-white px-4 py-2 rounded hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50 disabled:bg-gray-300"
-          onClick={handleNext}
-          disabled={page === totalPages}
-        >
-          Next Page
-        </button>
-      </div> */}
 
       <Pagination
         count={totalPages}

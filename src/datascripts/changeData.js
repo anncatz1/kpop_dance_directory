@@ -24,7 +24,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 //       // Update the row to have "tutorial" in the tutorial column
 //       await supabase
 //         .from("dance_tutorial_videos")
-//         .update({ url: "tutorial" })
+//         .update({ tutorial: "tutorial" })
 //         .eq("id", row.id);
 //     } else {
 //       // Update the row to have "cover" in the tutorial column
@@ -36,7 +36,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 //   }
 // })();
 
-// add url to tutorials
+// add url
 // (async () => {
 //   // Fetch all rows from the table
 //   const { data: rows, error } = await supabase
@@ -79,7 +79,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 //   for (const row of rows) {
 //     if (row.title.includes("&#39;") || row.title.includes("&quot;")) {
-//       // Update the row to have "tutorial" in the tutorial column
 //       await supabase
 //         .from("dance_tutorial_videos")
 //         .update({ title: decodeHtmlEntities(row.title) })
@@ -92,7 +91,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // (async () => {
 //   // Fetch all rows from the table
 //   const { data: rows, error } = await supabase
-//     .from("dance_tutorial_videos")
+//     .from("dance_tutorial_videos_duplicate")
 //     .select("id, title");
 
 //   if (error) {
@@ -101,30 +100,51 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 //   }
 
 //   for (const row of rows) {
-//     if (row.title.toLowerCase().includes("slow")) {
+// if (
+//   row.title.toLowerCase().includes("slowed") ||
+//   row.title.toLowerCase().includes("slow")
+// ) {
+//   // Update the row to have "tutorial" in the tutorial column
+//   await supabase
+//     .from("dance_tutorial_videos_duplicate")
+//     .update({ slowed: true })
+//     .eq("id", row.id);
+// } else {
+//   // Update the row to have "cover" in the tutorial column
+//   await supabase
+//     .from("dance_tutorial_videos_duplicate")
+//     .update({ slowed: false })
+//     .eq("id", row.id);
+// }
+
+//     if (
+//       row.title.toLowerCase().includes("full tutorial") ||
+//       row.title.toLowerCase().includes("full dance tutorial") ||
+//       row.title.toLowerCase().includes("full explanation")
+//     ) {
 //       // Update the row to have "tutorial" in the tutorial column
 //       await supabase
-//         .from("dance_tutorial_videos")
-//         .update({ slowed: true })
+//         .from("dance_tutorial_videos_duplicate")
+//         .update({ full: "full" })
 //         .eq("id", row.id);
 //     } else {
 //       // Update the row to have "cover" in the tutorial column
 //       await supabase
-//         .from("dance_tutorial_videos")
-//         .update({ slowed: false })
+//         .from("dance_tutorial_videos_duplicate")
+//         .update({ full: "chorus" })
 //         .eq("id", row.id);
 //     }
 //   }
 // })();
 
-function extractBetweenQuotes(title) {
-  const matches = title.match(
-    /‘([^’]+)’|`([^`]+)`|'([^']+)'|“([^”]+)”|"([^"]+)"/
-  );
-  return matches
-    ? matches[1] || matches[2] || matches[3] || matches[4] || matches[5]
-    : null;
-}
+// function extractBetweenQuotes(title) {
+//   const matches = title.match(
+//     /‘([^’]+)’|`([^`]+)`|'([^']+)'|“([^”]+)”|"([^"]+)"/
+//   );
+//   return matches
+//     ? matches[1] || matches[2] || matches[3] || matches[4] || matches[5]
+//     : null;
+// }
 
 // function extractBetweenQuotes(title) {
 //   const matches = title.match(
@@ -142,11 +162,34 @@ function extractBetweenQuotes(title) {
 // }
 
 // update song title
+// (async () => {
+//   // Fetch all rows from the table
+//   const { data: rows, error } = await supabase
+//     .from("dance_tutorial_videos")
+//     .select("id, title");
+
+//   if (error) {
+//     console.error("Error fetching data:", error);
+//     return;
+//   }
+
+//   for (const row of rows) {
+//     const newTitle = extractBetweenQuotes(row.title);
+//     // console.log(newTitle);
+//     // Update the row to have "tutorial" in the tutorial column
+//     await supabase
+//       .from("dance_tutorial_videos")
+//       .update({ song: newTitle })
+//       .eq("id", row.id);
+//   }
+// })();
+
+// add url
 (async () => {
   // Fetch all rows from the table
   const { data: rows, error } = await supabase
-    .from("dance_tutorial_videos")
-    .select("id, title");
+    .from("dances_duplicate")
+    .select("id, artist");
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -154,12 +197,17 @@ function extractBetweenQuotes(title) {
   }
 
   for (const row of rows) {
-    const newTitle = extractBetweenQuotes(row.title);
-    // console.log(newTitle);
-    // Update the row to have "tutorial" in the tutorial column
-    await supabase
-      .from("dance_tutorial_videos")
-      .update({ song: newTitle })
-      .eq("id", row.id);
+    const { data, error } = await supabase
+      .from("artists")
+      .select("Name")
+      .eq("Name", row.artist)
+      .single();
+    console.log(data);
+
+    if (data !== null)
+      await supabase
+        .from("dances_duplicate")
+        .update({ artist_id: data.Name })
+        .eq("id", row.id);
   }
 })();

@@ -1,5 +1,5 @@
 import VideosTable from "../components/VideosTable";
-import DanceTableOperations from "../components/DanceTableOperations";
+import DanceTableOps from "../components/DanceTableOps";
 import Row from "../ui/Row";
 import Heading from "../ui/Heading";
 
@@ -8,7 +8,7 @@ function Videos() {
     <>
       <Row type="horizontal">
         <Heading as="h2"></Heading>
-        <DanceTableOperations />
+        <DanceTableOps />
       </Row>
 
       <Row>
