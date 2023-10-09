@@ -188,7 +188,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 (async () => {
   // Fetch all rows from the table
   const { data: rows, error } = await supabase
-    .from("dances_duplicate")
+    .from("dances")
     .select("id, artist");
 
   if (error) {
@@ -206,7 +206,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
     if (data !== null)
       await supabase
-        .from("dances_duplicate")
+        .from("dances")
         .update({ artist_id: data.Name })
         .eq("id", row.id);
   }

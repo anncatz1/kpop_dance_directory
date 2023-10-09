@@ -16,7 +16,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     .eq("slowed", false)
     .order("date", { ascending: false });
 
-  const { data: tutorialRowsSlow, error: tutorialError2 } = await supabase
+  const { data: tutorialRows2, error: tutorialError2 } = await supabase
+    .from("dance_tutorial_videos_duplicate")
+    .select("id, song, url, difficulty")
+    .eq("slowed", false)
+    .order("date", { ascending: false });
+
+  const { data: tutorialRowsSlow, error: tutorialError3 } = await supabase
     .from("dance_tutorial_videos_duplicate")
     .select("id, song, url, difficulty")
     .eq("slowed", true)
@@ -46,6 +52,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     for (const danceVideo of danceRows) {
       // console.log(tutorialVideo.song, danceVideo.song);
       if (
+        // danceVideo.song.toLowerCase() in tutorialRowsNorm
         tutorialVideo.song.toLowerCase() === danceVideo.song.toLowerCase() &&
         danceVideo.mirrored === true
       ) {
@@ -136,6 +143,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
         artist: match.artist,
         dance_url: match.dance_url,
         tutorial_slow_url: match.tutorial_slow_url,
+        difficulty: match.difficulty,
       };
     }
   }

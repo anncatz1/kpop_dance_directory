@@ -88,7 +88,7 @@ function VideoRow({ row, slowed }) {
         <TableRow2Vid>
           <Video url={row.tutorial_urls.at(0)} />
           {row.tutorial_urls.at(1) && <Video url={row.tutorial_urls.at(1)} />}
-          <Video url={row.tutorial_slow_url} />
+          {row.tutorial_slow_url && <Video url={row.tutorial_slow_url} />}
         </TableRow2Vid>
       ) : row.tutorial_urls.at(1) ? (
         <TableRow2Vid>
