@@ -16,28 +16,28 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // }
 
 async function searchYouTube(query) {
-  const query1 = query + "Dance Practice";
+  // const query1 = query + "Dance Practice";
   // const API_KEY = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c";
   const API_KEY = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
   // const API_KEY = "AIzaSyCXI3RoHHsZmOkn3-jXcEfEOMQI9YYni8I";
-  const BASE_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
-    query1
-  )}&key=${API_KEY}`;
+  // const BASE_URL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
+  //   query1
+  // )}&key=${API_KEY}`;
 
-  const response = await fetch(BASE_URL);
-  const data = await response.json();
+  // const response = await fetch(BASE_URL);
+  // const data = await response.json();
 
-  if (!data) return;
+  // if (!data) return;
 
-  const video = {
-    videoId: data.items?.at(0).id.videoId,
-    videoTitle: data.items?.at(0).snippet.title,
-    song: query,
-    url: "https://www.youtube.com/watch?v=" + data.items?.at(0).id.videoId,
-    date: data.items?.at(0).snippet.publishedAt,
-    channel: data.items?.at(0).snippet.channelTitle,
-    mirrored: false,
-  };
+  // const video = {
+  //   videoId: data.items?.at(0).id.videoId,
+  //   videoTitle: data.items?.at(0).snippet.title,
+  //   song: query,
+  //   url: "https://www.youtube.com/watch?v=" + data.items?.at(0).id.videoId,
+  //   date: data.items?.at(0).snippet.publishedAt,
+  //   channel: data.items?.at(0).snippet.channelTitle,
+  //   mirrored: false,
+  // };
 
   // mirrored
   const query2 = query + "Dance Practice Mirrored";
@@ -59,8 +59,8 @@ async function searchYouTube(query) {
     channel: data2.items?.at(0).snippet.channelTitle,
     mirrored: true,
   };
-  if (data.items?.at(0).id.videoId == null) return [];
-  return [video, video2];
+  if (data2.items?.at(0).id.videoId == null) return [];
+  return [video2];
 }
 
 // Loop through tutorial entries

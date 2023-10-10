@@ -22,7 +22,7 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 100px 1fr 1fr;
+  grid-template-columns: 120px 1fr 1fr;
   column-gap: 2rem;
   align-items: center;
   justify-items: center;
@@ -33,7 +33,7 @@ const TableHeader = styled.header`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
-  padding: 1.6rem 1rem;
+  padding: 1rem 1rem;
 `;
 
 function VideosTable({ filterArtists, setFilterArtists }) {
@@ -61,7 +61,7 @@ function VideosTable({ filterArtists, setFilterArtists }) {
   async function fetchVideos() {
     try {
       let [field, direction] = sortBy.split("-");
-      if (field === "artist") field = "lower_artist";
+      // if (field === "artist") field = "lower_artist";
 
       const { data: videos, error } = await supabase
         .from("dances_duplicate")
@@ -74,7 +74,7 @@ function VideosTable({ filterArtists, setFilterArtists }) {
         filteredVideos = videos.filter((video) =>
           filterArtists.includes(video.artist)
         );
-        setPageTo1();
+        // setPageTo1();
       }
 
       if (error) throw error;
@@ -97,10 +97,10 @@ function VideosTable({ filterArtists, setFilterArtists }) {
   // if (filterValue === "with-discount")
   //   filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
-  function setPageTo1() {
-    searchParams.set("page", 1);
-    setSearchParams(searchParams);
-  }
+  // function setPageTo1() {
+  //   searchParams.set("page", 1);
+  //   setSearchParams(searchParams);
+  // }
 
   function handlePage(event, value) {
     searchParams.set("page", value);

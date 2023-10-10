@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useContext } from "react";
 import supabase from "../services/supabase";
-import { Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+import { FormGroup, FormControlLabel } from "@mui/material";
 // import { useSearchParams } from "react-router-dom";
 import ControlledCheckbox from "./Checkbox";
 
@@ -16,18 +16,6 @@ const StyledSidebar = styled.aside`
 
 function Sidebar({ filterArtists, setFilterArtists }) {
   const [artists, setArtists] = useState([]);
-  // const { filterArtists, setFilterArtists } = useContext(VideosContext);
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const filterArtists = searchParams.get("sort") || "";
-
-  // function handleChecked(e) {
-  //   if (e.target.checked) {
-  //     const newArtists = Array.filter((item) => item !== e.target);
-  //     setFilterArtists(newArtists);
-  //   }
-  // searchParams.set("sort", e.target.value);
-  // setSearchParams(searchParams);
-  // }
 
   useEffect(() => {
     fetchArtists();
@@ -51,8 +39,6 @@ function Sidebar({ filterArtists, setFilterArtists }) {
   artists.sort((a, b) =>
     a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
   );
-  // const firstItem = { Name: "All" };
-  // const allItems = [firstItem, ...artists];
 
   return (
     <StyledSidebar>
@@ -62,7 +48,7 @@ function Sidebar({ filterArtists, setFilterArtists }) {
 
       <FormGroup>
         <span className="font-semibold text-lg mb-[0.8rem]">Artist: </span>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
             <Checkbox
               // checked={checked}
@@ -82,7 +68,7 @@ function Sidebar({ filterArtists, setFilterArtists }) {
             />
           }
           label="Girl Group"
-        />
+        />*/}
       </FormGroup>
 
       <FormGroup>
