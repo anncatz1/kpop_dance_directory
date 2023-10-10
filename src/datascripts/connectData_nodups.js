@@ -48,15 +48,17 @@ const supabase = createClient(supabaseUrl, supabaseKey);
   const matches = [];
 
   for (const tutorialVideo of tutorialRowsNorm) {
+    // console.log(tutorialVideo.song);
     for (const danceVideo of danceRows) {
       if (
         tutorialVideo.song.toLowerCase() === danceVideo.song.toLowerCase() &&
         (danceVideo.mirrored === true || danceVideo.mirrored === null)
       ) {
+        console.log(danceVideo.song);
         matches.push({
           date: danceVideo.date,
           song: danceVideo.song,
-          artist: tutorialVideo.artist,
+          artist: danceVideo.artist,
           dance_url: danceVideo.url,
           tutorial_url: tutorialVideo.url,
         });
@@ -165,8 +167,14 @@ const supabase = createClient(supabaseUrl, supabaseKey);
   const consolidatedArray = Object.values(consolidatedMatches);
   const finalItems = [...matches3, ...consolidatedArray];
 
+  // const matches4 = [{ song: "SO WHAT" }];
+  // const { data, error } = await supabase
+  //   .from("dances_tutorials")
+  //   .select("song")
+  //   .ilike("song", "SO WHAT")
+  //   .limit(1);
   // console.log(matches3);
-  for (const item of consolidatedArray) {
+  for (const item of matches) {
     const { data, error } = await supabase
       .from("dances_duplicate")
       .select("song")

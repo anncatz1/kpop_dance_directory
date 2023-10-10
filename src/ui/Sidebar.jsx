@@ -39,6 +39,7 @@ function Sidebar({ filterArtists, setFilterArtists }) {
         .from("artists")
         .select("Name", { count: "exact" })
         .eq("Exists", true);
+      // .neq("Group_Type", "SOLO");
 
       if (error) throw error;
       setArtists(data);

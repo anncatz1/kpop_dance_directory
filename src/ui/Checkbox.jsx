@@ -3,7 +3,7 @@ import { Checkbox } from "@mui/material";
 
 function ControlledCheckbox({ filterArtists, setFilterArtists, label }) {
   const [checked, setChecked] = useState(false);
-  console.log(label);
+  //   console.log(label);
   //   const { filterArtists, setFilterArtists } = useContext(VideosContext);
 
   const handleCheck = (e) => {
