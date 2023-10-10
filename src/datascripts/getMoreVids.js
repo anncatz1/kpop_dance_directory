@@ -67,12 +67,11 @@ async function searchYouTube(query) {
 async function processTutorials() {
   // let results;
   const { data: tutorials, error: tutorialError } = await supabase
-    .from("dance_tutorial_videos")
+    .from("dance_tutorial_videos_duplicate")
     .select("id, song")
-    .eq("tutorial", "tutorial")
     .eq("slowed", false)
     .order("date", { ascending: false })
-    .lt("date", "05/03/2019");
+    .lt("date", "04/07/2022");
 
   if (tutorialError) {
     console.error("Error fetching tutorial videos:", tutorialError);
@@ -84,7 +83,7 @@ async function processTutorials() {
 
     if (query) {
       const result = await searchYouTube(query);
-      console.log(query, result);
+      // console.log(query, result);
 
       if (result.length === 0) return;
       // Do something with the results, e.g., insert into your database
@@ -98,6 +97,7 @@ processTutorials();
 
 // add to database
 async function addToDatabase(videos, title) {
+  console.log(title, videos);
   if (!videos || videos.length === 0) return;
 
   const { data, error } = await supabase
@@ -113,6 +113,7 @@ async function addToDatabase(videos, title) {
 
   if (data && data.length === 0) {
     // Step 2: If no record with the given title exists, insert the new record
+    // console.log(title, videos);
 
     const { insertError } = await supabase
       .from("dance_practice_videos")

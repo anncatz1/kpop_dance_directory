@@ -100,6 +100,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
           song: danceVideo.song,
           artist: danceVideo.artist,
           dance_url: danceVideo.url,
+          // tutorial_url: tutorialVideo.url,
           tutorial_slow_url: tutorialVideo.url,
           difficulty: tutorialVideo.difficulty,
         });
@@ -145,6 +146,11 @@ const supabase = createClient(supabaseUrl, supabaseKey);
         tutorial_slow_url: match.tutorial_slow_url,
         difficulty: match.difficulty,
       };
+      for (const tutorialVideo of tutorialRows2) {
+        if (tutorialVideo.song.toLowerCase() === match.song.toLowerCase()) {
+          consolidatedMatches[match.song].tutorial_urls = [tutorialVideo.url];
+        }
+      }
     }
   }
 
