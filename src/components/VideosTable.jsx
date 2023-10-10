@@ -9,7 +9,7 @@ import Spinner from "../ui/Spinner";
 import { Pagination } from "@mui/material";
 import NoVideos from "../ui/NoVideos";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 15;
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -36,11 +36,11 @@ const TableHeader = styled.header`
   padding: 1.6rem 1rem;
 `;
 
-function VideosTable() {
+function VideosTable({ filterArtists, setFilterArtists }) {
   const [totalVideos, setTotalVideos] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  const filterArtist = searchParams.get("artist") || "All";
+  // const filterArtist = searchParams.get("artist") || "All";
   const sortBy = searchParams.get("sort") || "date-desc";
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
   const slowed = searchParams.get("slowed") || "false";
@@ -53,12 +53,12 @@ function VideosTable() {
     // isFetching,
     // isPreviousData,
   } = useQuery({
-    queryKey: ["dances", page, sortBy, filterArtist],
-    queryFn: () => fetchVideos(page, sortBy),
+    queryKey: ["dances", page, sortBy, filterArtists],
+    queryFn: () => fetchVideos(),
     keepPreviousData: true,
   });
 
-  async function fetchVideos(pageParam, sortBy) {
+  async function fetchVideos() {
     try {
       let [field, direction] = sortBy.split("-");
       if (field === "artist") field = "lower_artist";
@@ -69,10 +69,10 @@ function VideosTable() {
         .order(field, { ascending: direction === "asc" });
 
       let filteredVideos;
-      if (filterArtist === "All") filteredVideos = videos;
+      if (filterArtists.length === 0) filteredVideos = videos;
       else {
-        filteredVideos = videos.filter(
-          (video) => video.artist === filterArtist
+        filteredVideos = videos.filter((video) =>
+          filterArtists.includes(video.artist)
         );
         setPageTo1();
       }

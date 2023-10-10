@@ -47,14 +47,17 @@ const Container = styled.div`
   } */
 `;
 
-function AppLayout() {
+function AppLayout({ filterArtists, setFilterArtists }) {
   return (
     <StyledAppLayout>
       <HeaderContainer>
         <Header />
       </HeaderContainer>
       <SidebarContainer>
-        <Sidebar />
+        <Sidebar
+          filterArtists={filterArtists}
+          setFilterArtists={setFilterArtists}
+        />
       </SidebarContainer>
 
       <Main>

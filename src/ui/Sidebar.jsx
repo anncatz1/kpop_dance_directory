@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import supabase from "../services/supabase";
 import { Checkbox, FormGroup, FormControlLabel } from "@mui/material";
+// import { useSearchParams } from "react-router-dom";
+import ControlledCheckbox from "./Checkbox";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -12,8 +14,20 @@ const StyledSidebar = styled.aside`
   gap: 0.7rem;
 `;
 
-function Sidebar() {
+function Sidebar({ filterArtists, setFilterArtists }) {
   const [artists, setArtists] = useState([]);
+  // const { filterArtists, setFilterArtists } = useContext(VideosContext);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const filterArtists = searchParams.get("sort") || "";
+
+  // function handleChecked(e) {
+  //   if (e.target.checked) {
+  //     const newArtists = Array.filter((item) => item !== e.target);
+  //     setFilterArtists(newArtists);
+  //   }
+  // searchParams.set("sort", e.target.value);
+  // setSearchParams(searchParams);
+  // }
 
   useEffect(() => {
     fetchArtists();
@@ -32,6 +46,7 @@ function Sidebar() {
       console.error("Failed to fetch videos:", error);
     }
   }
+
   artists.sort((a, b) =>
     a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
   );
@@ -43,6 +58,7 @@ function Sidebar() {
       <div className="flex flex-col">
         <span className="mb-4 text-xl">Filter by: </span>
       </div>
+
       <FormGroup>
         <span className="font-semibold text-lg mb-[0.8rem]">Artist: </span>
         <FormControlLabel
@@ -70,13 +86,18 @@ function Sidebar() {
 
       <FormGroup>
         {artists.map((item) => (
+          // <ControlledCheckbox
+          //   filterArtists={filterArtists}
+          //   setFilterArtists={setFilterArtists}
+          //   label={item.Name}
+          // />
           <FormControlLabel
             key={item.Name}
             control={
-              <Checkbox
-                // checked={checked}
-                // onChange={handleChange}
-                inputProps={{ "aria-label": "controlled" }}
+              <ControlledCheckbox
+                filterArtists={filterArtists}
+                setFilterArtists={setFilterArtists}
+                label={item.Name}
               />
             }
             label={item.Name}

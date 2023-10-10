@@ -3,7 +3,7 @@ import DanceTableOps from "../components/DanceTableOps";
 import Row from "../ui/Row";
 import Heading from "../ui/Heading";
 
-function Videos() {
+function Videos({ filterArtists, setFilterArtists }) {
   return (
     <>
       <Row type="horizontal">
@@ -12,7 +12,10 @@ function Videos() {
       </Row>
 
       <Row>
-        <VideosTable />
+        <VideosTable
+          filterArtists={filterArtists}
+          setFilterArtists={setFilterArtists}
+        />
       </Row>
     </>
   );
