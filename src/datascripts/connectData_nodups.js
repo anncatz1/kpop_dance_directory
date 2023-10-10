@@ -51,7 +51,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     for (const danceVideo of danceRows) {
       if (
         tutorialVideo.song.toLowerCase() === danceVideo.song.toLowerCase() &&
-        danceVideo.mirrored === true
+        (danceVideo.mirrored === true || danceVideo.mirrored === null)
       ) {
         matches.push({
           date: danceVideo.date,
@@ -83,7 +83,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     for (const danceVideo of danceRows) {
       if (
         tutorialVideo.song.toLowerCase() === danceVideo.song.toLowerCase() &&
-        danceVideo.mirrored === true
+        (danceVideo.mirrored === true || danceVideo.mirrored === null)
       ) {
         matches2.push({
           date: danceVideo.date,
@@ -116,6 +116,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       // }
     } else {
       consolidatedMatches[match.song].tutorial_urls.unshift(match.tutorial_url);
+      break;
     }
   }
 
@@ -141,18 +142,57 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     }
   }
 
-  // Insert matched data into the new table
-  const consolidatedArray = Object.values(consolidatedMatches);
-
-  // Insert matched data into the new table
-  const { error: insertError } = await supabase
-    .from("dances_duplicate")
-    .insert(consolidatedArray);
-
-  if (insertError) {
-    console.error("Error inserting matched data:", insertError);
-    return;
+  const matches3 = [];
+  for (const tutorialVideo of tutorialRows2) {
+    for (const danceVideo of danceRows) {
+      if (
+        tutorialVideo.song.toLowerCase() === danceVideo.song.toLowerCase() &&
+        danceVideo.mirrored === true
+      ) {
+        matches3.push({
+          date: danceVideo.date,
+          song: danceVideo.song,
+          artist: tutorialVideo.artist,
+          dance_url: danceVideo.url,
+          tutorial_urls: [tutorialVideo.url],
+          difficulty: tutorialVideo.difficulty,
+        });
+      }
+    }
   }
 
-  console.log("Matched data inserted successfully.");
+  // Insert matched data into the new table
+  const consolidatedArray = Object.values(consolidatedMatches);
+  const finalItems = [...matches3, ...consolidatedArray];
+
+  // console.log(matches3);
+  for (const item of consolidatedArray) {
+    const { data, error } = await supabase
+      .from("dances_duplicate")
+      .select("song")
+      .ilike("song", item.song)
+      .limit(1);
+
+    if (error) {
+      console.error("Error fetching data:", error);
+      return;
+    }
+
+    if (data && data.length === 0) {
+      // Step 2: If no record with the given title exists, insert the new record
+      // console.log(title, videos);
+
+      const { insertError } = await supabase
+        .from("dances_duplicate")
+        .insert(item);
+
+      if (insertError) {
+        console.error("Error inserting data:", insertError);
+      } else {
+        console.log(item, "Data inserted successfully");
+      }
+    } else {
+      console.log(item.song, "Record with the same title already exists");
+    }
+  }
 })();

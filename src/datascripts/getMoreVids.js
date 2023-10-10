@@ -68,7 +68,7 @@ async function processTutorials() {
   // let results;
   const { data: tutorials, error: tutorialError } = await supabase
     .from("dance_tutorial_videos_duplicate")
-    .select("id, song")
+    .select("id, date, song")
     .eq("slowed", false)
     .order("date", { ascending: false })
     .lt("date", "04/07/2022");

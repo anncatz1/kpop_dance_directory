@@ -58,9 +58,8 @@ function VideosTable() {
     keepPreviousData: true,
   });
 
-  async function fetchVideos(pageParam, sortBy = "date-desc") {
+  async function fetchVideos(pageParam, sortBy) {
     try {
-      // const start = (pageParam - 1) * ITEMS_PER_PAGE;
       let [field, direction] = sortBy.split("-");
       if (field === "artist") field = "lower_artist";
 
@@ -80,6 +79,7 @@ function VideosTable() {
 
       if (error) throw error;
       setTotalVideos(filteredVideos.length);
+
       const start = (page - 1) * ITEMS_PER_PAGE;
       const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
       return rangeVids;
@@ -89,7 +89,6 @@ function VideosTable() {
   }
 
   // filter
-
   // const mirror = searchParams.get("mirrored");
   // let dancePractices;
   // if (filterValue === "all") filteredCabins = cabins;
@@ -116,7 +115,6 @@ function VideosTable() {
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>
-          {/* <div>Date</div> */}
           <div>Practice</div>
           <div>Tutorials </div>
         </TableHeader>
@@ -131,6 +129,7 @@ function VideosTable() {
         page={page}
         onChange={handlePage}
         color="secondary"
+        size="large"
         showFirstButton
         showLastButton
       />

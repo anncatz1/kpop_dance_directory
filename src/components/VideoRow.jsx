@@ -75,16 +75,17 @@ const TableRow2Vid = styled.div`
 function VideoRow({ row, slowed }) {
   return (
     <TableRow>
-      <h4 className="text-center space-y-2">
+      <h4 className="text-center space-y-3">
         <div>{row.song}</div>
         <div>{row.artist}</div>
         <div>{row.date}</div>
+        <div>{row.difficulty}</div>
       </h4>
       <TutorialBox>
         <Video url={row.dance_url} />
       </TutorialBox>
 
-      {slowed === "true" ? (
+      {slowed === "true" && row.tutorial_slow_url ? (
         <TableRow2Vid>
           <Video url={row.tutorial_urls.at(0)} />
           {row.tutorial_urls.at(1) && <Video url={row.tutorial_urls.at(1)} />}

@@ -34,15 +34,16 @@ async function getVideos(channelId, apiKey, playlistId, pageToken) {
       song: extractBetweenQuotes(item.snippet.title),
     }));
 
+    console.log(videos);
     // Insert video data into Supabase
-    const { data, error } = await supabase
-      .from("dance_tutorial_videos_duplicate")
-      .insert(videos)
-      .select();
+    // const { data, error } = await supabase
+    //   .from("dance_tutorial_videos_duplicate")
+    //   .insert(videos)
+    //   .select();
 
-    if (error) {
-      throw error;
-    }
+    // if (error) {
+    //   throw error;
+    // }
 
     // console.log(videos);
     console.log(nextPageToken);

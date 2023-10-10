@@ -2,26 +2,39 @@ import { Outlet } from "react-router-dom";
 // import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
+import Sidebar from "./Sidebar";
 
 const StyledAppLayout = styled.div`
   display: grid;
   height: 100vh;
-  grid-template-columns: 1fr;
+  grid-template-columns: 16rem 1fr;
   grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+`;
+
+const HeaderContainer = styled.div`
+  grid-area: header;
+`;
+
+const SidebarContainer = styled.div`
+  grid-area: sidebar;
 `;
 
 const Main = styled.main`
+  grid-area: main;
   background-color: var(--color-grey-50);
   padding: 2rem 3rem 3.2rem;
   overflow: scroll;
 `;
 
 const Container = styled.div`
-  /* max-width: 120rem; */
+  max-width: 120rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  /* gap: 3.2rem; */
+  gap: 2rem;
   @media (min-width: 2360px) {
     padding: 0rem 6rem;
   }
@@ -37,7 +50,12 @@ const Container = styled.div`
 function AppLayout() {
   return (
     <StyledAppLayout>
-      <Header />
+      <HeaderContainer>
+        <Header />
+      </HeaderContainer>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
 
       <Main>
         <Container>
