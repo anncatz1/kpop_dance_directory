@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -34,6 +34,10 @@ const TableHeader = styled.header`
   font-weight: 600;
   color: var(--color-grey-600);
   padding: 1rem 1rem;
+
+  @media (max-width: 1250px) {
+    display: none;
+  }
 `;
 
 function VideosTable({
@@ -57,6 +61,10 @@ function VideosTable({
     advanced: 3,
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const {
     isLoading,
     // isError,
@@ -73,24 +81,18 @@ function VideosTable({
   async function fetchVideos() {
     try {
       let [field, direction] = sortBy.split("-");
-      // if (field === "artist") field = "lower_artist";
-      let modifier = direction === "asc";
+      if (field === "artist") field = "lower_artist";
+      if (field === "song") field = "lower_song";
+      // let modifier = direction === "asc";
 
       const { data: videos, error } = await supabase
         .from("dances_duplicate")
-        .select("*", { count: "exact" });
-      // .order(field, { ascending: direction === "asc" });
+        .select("*", { count: "exact" })
+        .order(field, { ascending: direction === "asc" });
       // .order("title");
+      // console.log(videos.map((video) => video.lower_artist));
 
-      if (field === "artist") {
-        videos.sort((a, b) => {
-          if (a.artist < b.artist) return -1 * modifier;
-          if (a.artist > b.artist) return 1 * modifier;
-          if (a.date > b.date) return -1;
-          if (a.date < b.date) return 1;
-          return 0; // They are equal
-        });
-      } else if (field === "difficulty") {
+      if (field === "difficulty") {
         videos.sort((a, b) => {
           if (difficulties[a.difficulty] < difficulties[b.difficulty])
             return -1;

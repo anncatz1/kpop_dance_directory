@@ -77,8 +77,9 @@ async function processTutorials() {
     //   return;
   }
 
-  for (const tutorial of tutorials) {
-    const query = tutorial.song;
+  const queries = ["LIAR LIAR"];
+  for (const query of queries) {
+    // const query = tutorial.song;
 
     if (query) {
       const result = await searchYouTube(query);

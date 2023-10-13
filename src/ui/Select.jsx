@@ -12,11 +12,13 @@ const StyledSelect = styled.select`
   background-color: var(--color-grey-0);
   font-weight: 500;
   box-shadow: var(--shadow-sm);
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+  }
 `;
 
 function Select({ options, value, onChange, field, ...props }) {
-  // console.log(options[0].Name);
-  // console.log(field);
   return (
     <StyledSelect value={value} onChange={onChange} {...props}>
       {options.map((item) => (

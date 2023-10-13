@@ -12,13 +12,14 @@ const StyledAppLayout = styled.div`
     "header header"
     "sidebar main";
 
-  /* @media (max-width: 825px) {
+  @media (max-width: 768px) {
+    // Adjusted breakpoint to 768px
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "header"
       "main";
-  } */
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -27,6 +28,11 @@ const HeaderContainer = styled.div`
 
 const SidebarContainer = styled.div`
   grid-area: sidebar;
+
+  @media (max-width: 768px) {
+    // Hide sidebar on mobile screens
+    display: none;
+  }
 `;
 
 const Main = styled.main`
@@ -34,8 +40,15 @@ const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 2rem 3rem 3.2rem;
   overflow: scroll;
+
   @media (max-width: 1250px) {
     padding: 2rem 2rem;
+  }
+
+  @media (max-width: 768px) {
+    // Hide sidebar on mobile screens
+    padding: 2rem 1rem;
+    /* overflow: hidden; */
   }
 `;
 
@@ -44,17 +57,18 @@ const Container = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   @media (min-width: 2360px) {
     padding: 0rem 6rem;
   }
   @media (max-width: 1250px) {
     padding: 0rem 2rem;
   }
-  /*
-  @media (min-width: 1000px) {
-    padding: 0rem 3rem;
-  } */
+
+  @media (max-width: 768px) {
+    // Hide sidebar on mobile screens
+    padding: 0px;
+  }
 `;
 
 function AppLayout({

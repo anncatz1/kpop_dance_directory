@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import Videos from "./pages/Videos";
 import AppLayout from "./ui/AppLayout";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -19,7 +19,7 @@ function App() {
     <>
       {/* <GlobalStyles /> */}
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route
               element={
@@ -48,7 +48,7 @@ function App() {
               />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
 
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         {/* </VideosContext.Provider> */}

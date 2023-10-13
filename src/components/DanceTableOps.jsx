@@ -1,11 +1,20 @@
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
 
 function DanceTableOps() {
+  // const theme = useTheme();
+  const isSmallScreen = useMediaQuery("(max-width:500px)");
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center sm:justify-end gap-6 justify-between">
       {/* <SwitchButton filterField="mirrored" label="Mirrored" /> */}
-      <SwitchButton filterField="slowed" label="Show Slowed Tutorials" />
+      <SwitchButton
+        filterField="slowed"
+        label={isSmallScreen ? "Slowed" : "Show Slowed Tutorials"}
+      />
 
       <SortBy
         options={[
@@ -17,11 +26,11 @@ function DanceTableOps() {
           { value: "artist-desc", label: "Sort by artist (Z-A)" },
           {
             value: "difficulty-asc",
-            label: "Sort by difficulty (easiest to hardest)",
+            label: "Sort by difficulty (easiest first)",
           },
           {
             value: "difficulty-desc",
-            label: "Sort by difficulty (hardest to easiest)",
+            label: "Sort by difficulty (hardest first)",
           },
         ]}
       />

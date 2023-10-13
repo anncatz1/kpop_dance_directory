@@ -184,7 +184,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 //   }
 // })();
 
-// add url
+// add artist id
 (async () => {
   // Fetch all rows from the table
   const { data: rows, error } = await supabase

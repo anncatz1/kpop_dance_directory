@@ -55,46 +55,13 @@
   --image-grayscale: 0;
   --image-opacity: 100%;
 }
-/* .videos-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 3rem;
-  background-color: #f4f4f4;
-} */
 
-/* .videoContainer {
-  background-color: white;
-  padding-top: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-} */
-
-/* .videoPair {
-  display: flex;
-  flex-direction: row; 
-  gap: 2rem; 
-  align-items: start; 
-  justify-content: center;
-} */
-
-/* .video-info {
-  width: 500px;
-  height: 400px;
-  margin: 0;
-  padding: 0;
-} */
-
-/* h1,
-h3,
-p {
-  font-family: "Arial", sans-serif;
-  text-align: center;
+.responsive-label {
+  font-size: 16px; /* Default font size */
 }
 
-h1 {
-  margin-bottom: -10px;
+@media (max-width: 768px) {
+  .responsive-label {
+    font-size: 12px; /* Smaller font size for screens up to 768px wide */
+  }
 }
-h3 {
-  margin-bottom: 30px;
-} */

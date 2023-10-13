@@ -16,6 +16,7 @@ const TableRow = styled.div`
     display: flex;
     flex-direction: column;
     padding: 2rem 3rem;
+    overflow: hidden;
   }
 
   &:not(:last-child) {
@@ -39,7 +40,7 @@ const TutorialBox = styled.div`
   }
 
   @media (max-width: 1250px) {
-    padding: 1rem 5rem;
+    padding: 1rem 4rem;
   }
 `;
 
@@ -59,7 +60,7 @@ const TableRow1Vid = styled.div`
   }
 
   @media (max-width: 1250px) {
-    padding: 1rem 5rem;
+    padding: 1rem 4rem;
   }
 `;
 
@@ -81,14 +82,23 @@ function capitalize(item) {
 function VideoRow({ row, slowed }) {
   return (
     <TableRow>
-      <h4 className="text-center space-y-2">
-        <div>
-          <p className="font-semibold">{row.song}</p>
+      <div>
+        <div className="text-center mb-2 sm:mb-3">
+          <p className="font-medium text-lg">{row.song}</p>
+          <p className="text-lg">{row.artist}</p>
         </div>
-        <div>{row.artist}</div>
-        <div>Release date: {format(new Date(row.date), "MM/dd/yyyy")}</div>
-        <div>{row.difficulty ? capitalize(row.difficulty) : ""}</div>
-      </h4>
+        <div className="text-center sm:space-y-1 mb-1 sm:mb-2">
+          <p className="text-base">
+            Release date: {format(new Date(row.date), "MM/dd/yyyy")}
+          </p>
+          <div className="flex gap-1 justify-center xl:flex-col xl:gap-0">
+            <p className="text-base">Difficulty: </p>
+            <p className="text-base">
+              {row.difficulty ? capitalize(row.difficulty) : ""}
+            </p>
+          </div>
+        </div>
+      </div>
       <TutorialBox>
         <Video url={row.dance_url} />
       </TutorialBox>

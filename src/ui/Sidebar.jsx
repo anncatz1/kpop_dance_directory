@@ -60,11 +60,11 @@ function Sidebar({
   return (
     <StyledSidebar>
       <div className="flex flex-col">
-        <span className="mb-4 text-xl">Filter by: </span>
+        <span className="mb-3 text-xl">Filter by: </span>
       </div>
 
-      <FormGroup>
-        <span className="font-semibold text-lg mb-[0.8rem]">Difficulty: </span>
+      <FormGroup className="mb-1">
+        <span className="font-medium text-lg mb-1">Difficulty: </span>
         {difficulties.map((item) => (
           <FormControlLabel
             key={item}
@@ -80,9 +80,9 @@ function Sidebar({
         ))}
       </FormGroup>
 
-      <FormGroup>
+      {/* <FormGroup>
         <span className="font-semibold text-lg">Artist: </span>
-        {/* <FormControlLabel
+        <FormControlLabel
           control={
             <Checkbox
               // checked={checked}
@@ -102,10 +102,11 @@ function Sidebar({
             />
           }
           label="Girl Group"
-        />*/}
-      </FormGroup>
+        />
+      </FormGroup>*/}
 
       <FormGroup>
+        <span className="font-medium text-lg mb-1">Artist: </span>
         {artists.map((item) => (
           <FormControlLabel
             key={item.Name}

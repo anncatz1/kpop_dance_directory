@@ -11,12 +11,8 @@ function Videos({
 }) {
   return (
     <>
-      <Row type="horizontal">
-        <Heading as="h2"></Heading>
-        <DanceTableOps />
-      </Row>
-
       <Row>
+        <DanceTableOps />
         <VideosTable
           filterArtists={filterArtists}
           setFilterArtists={setFilterArtists}
