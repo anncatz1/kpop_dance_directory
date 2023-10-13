@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kpop_dance_directory/static/css/main.fc2c076c.css",
-    "main.js": "/kpop_dance_directory/static/js/main.afa8a825.js",
+    "main.css": "/kpop_dance_directory/static/css/main.a5196361.css",
+    "main.js": "/kpop_dance_directory/static/js/main.80683f74.js",
     "reactPlayerYouTube.js": "/kpop_dance_directory/static/js/reactPlayerYouTube.c6c7c9a7.chunk.js",
     "reactPlayerSoundCloud.js": "/kpop_dance_directory/static/js/reactPlayerSoundCloud.17843156.chunk.js",
     "reactPlayerVimeo.js": "/kpop_dance_directory/static/js/reactPlayerVimeo.ec4639df.chunk.js",
@@ -16,8 +16,8 @@
     "reactPlayerFilePlayer.js": "/kpop_dance_directory/static/js/reactPlayerFilePlayer.beb4b79d.chunk.js",
     "reactPlayerPreview.js": "/kpop_dance_directory/static/js/reactPlayerPreview.509e78f0.chunk.js",
     "index.html": "/kpop_dance_directory/index.html",
-    "main.fc2c076c.css.map": "/kpop_dance_directory/static/css/main.fc2c076c.css.map",
-    "main.afa8a825.js.map": "/kpop_dance_directory/static/js/main.afa8a825.js.map",
+    "main.a5196361.css.map": "/kpop_dance_directory/static/css/main.a5196361.css.map",
+    "main.80683f74.js.map": "/kpop_dance_directory/static/js/main.80683f74.js.map",
     "reactPlayerYouTube.c6c7c9a7.chunk.js.map": "/kpop_dance_directory/static/js/reactPlayerYouTube.c6c7c9a7.chunk.js.map",
     "reactPlayerSoundCloud.17843156.chunk.js.map": "/kpop_dance_directory/static/js/reactPlayerSoundCloud.17843156.chunk.js.map",
     "reactPlayerVimeo.ec4639df.chunk.js.map": "/kpop_dance_directory/static/js/reactPlayerVimeo.ec4639df.chunk.js.map",
@@ -33,7 +33,7 @@
     "reactPlayerPreview.509e78f0.chunk.js.map": "/kpop_dance_directory/static/js/reactPlayerPreview.509e78f0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fc2c076c.css",
-    "static/js/main.afa8a825.js"
+    "static/css/main.a5196361.css",
+    "static/js/main.80683f74.js"
   ]
 }
