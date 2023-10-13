@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useContext } from "react";
-import supabase from "../services/supabase";
 import { FormGroup, FormControlLabel } from "@mui/material";
+import supabase from "../services/supabase";
 // import { useSearchParams } from "react-router-dom";
-import ControlledCheckbox from "./Checkbox";
+import ControlledCheckbox from "./ControlledCheckbox";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -14,8 +14,14 @@ const StyledSidebar = styled.aside`
   gap: 0.7rem;
 `;
 
-function Sidebar({ filterArtists, setFilterArtists }) {
-  const [artists, setArtists] = useState([]);
+function Sidebar({
+  filterArtists,
+  setFilterArtists,
+  filterDifficulty,
+  setFilterDifficulty,
+}) {
+  const [artists, setArtists] = useState([]); //all artists
+  // const [filterDifficulty, setFilterDifficulty] = useState([]);
 
   useEffect(() => {
     fetchArtists();
@@ -40,6 +46,17 @@ function Sidebar({ filterArtists, setFilterArtists }) {
     a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
   );
 
+  function capitalize(item) {
+    return item?.at(0).toUpperCase() + item?.slice(1);
+  }
+
+  const difficulties = [
+    "beginner",
+    "intermediate",
+    "hard-intermediate",
+    "advanced",
+  ];
+
   return (
     <StyledSidebar>
       <div className="flex flex-col">
@@ -47,7 +64,24 @@ function Sidebar({ filterArtists, setFilterArtists }) {
       </div>
 
       <FormGroup>
-        <span className="font-semibold text-lg mb-[0.8rem]">Artist: </span>
+        <span className="font-semibold text-lg mb-[0.8rem]">Difficulty: </span>
+        {difficulties.map((item) => (
+          <FormControlLabel
+            key={item}
+            control={
+              <ControlledCheckbox
+                param={filterDifficulty}
+                setParam={setFilterDifficulty}
+                label={item}
+              />
+            }
+            label={capitalize(item)}
+          />
+        ))}
+      </FormGroup>
+
+      <FormGroup>
+        <span className="font-semibold text-lg">Artist: </span>
         {/* <FormControlLabel
           control={
             <Checkbox
@@ -73,17 +107,12 @@ function Sidebar({ filterArtists, setFilterArtists }) {
 
       <FormGroup>
         {artists.map((item) => (
-          // <ControlledCheckbox
-          //   filterArtists={filterArtists}
-          //   setFilterArtists={setFilterArtists}
-          //   label={item.Name}
-          // />
           <FormControlLabel
             key={item.Name}
             control={
               <ControlledCheckbox
-                filterArtists={filterArtists}
-                setFilterArtists={setFilterArtists}
+                param={filterArtists}
+                setParam={setFilterArtists}
                 label={item.Name}
               />
             }

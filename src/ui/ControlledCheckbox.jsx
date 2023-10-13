@@ -1,11 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
-function ControlledCheckbox({ filterArtists, setFilterArtists, label }) {
+function ControlledCheckbox({ param = [], setParam, label }) {
   const [checked, setChecked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   //   const { filterArtists, setFilterArtists } = useContext(VideosContext);
+  // console.log(setParam);
 
   function setPageTo1() {
     searchParams.set("page", 1);
@@ -14,28 +15,20 @@ function ControlledCheckbox({ filterArtists, setFilterArtists, label }) {
 
   const handleCheck = (e) => {
     setChecked((prev) => !prev);
+
     if (!checked) {
-      const newArtists = [...filterArtists, label];
-      setFilterArtists(newArtists);
-      //   console.log(newArtists);
+      const newArray = [...param, label];
+      console.log(newArray);
+      setParam(newArray);
     } else {
-      const newArtists = filterArtists.filter((item) => item !== label);
-      setFilterArtists(newArtists);
-      //   console.log(newArtists);
+      const newArray = param.filter((item) => item !== label);
+      setParam(newArray);
     }
+
     setPageTo1();
   };
 
   return (
-    // <>
-    //   <label htmlFor={label}>{label}</label>
-    //   <input
-    //     id={label}
-    //     type="checkbox"
-    //     checked={checked}
-    //     onChange={handleCheck}
-    //   />
-    // </>
     <Checkbox
       checked={checked}
       onChange={handleCheck}

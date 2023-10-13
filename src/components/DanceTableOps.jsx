@@ -16,11 +16,11 @@ function DanceTableOps() {
           { value: "artist-asc", label: "Sort by artist (A-Z)" },
           { value: "artist-desc", label: "Sort by artist (Z-A)" },
           {
-            value: "difficulty-desc",
+            value: "difficulty-asc",
             label: "Sort by difficulty (easiest to hardest)",
           },
           {
-            value: "difficulty-asc",
+            value: "difficulty-desc",
             label: "Sort by difficulty (hardest to easiest)",
           },
         ]}

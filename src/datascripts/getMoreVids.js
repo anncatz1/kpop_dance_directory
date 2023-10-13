@@ -68,9 +68,9 @@ async function processTutorials() {
   const { data: tutorials, error: tutorialError } = await supabase
     .from("dance_tutorial_videos")
     .select("id, date, song")
-    .eq("slowed", false)
+    .eq("tutorial", "tutorial")
     .order("date", { ascending: false })
-    .lt("date", "05/25/2018");
+    .lt("date", "10/01/2017");
 
   if (tutorialError) {
     console.error("Error fetching tutorial videos:", tutorialError);

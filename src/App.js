@@ -1,17 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Videos from "./pages/Videos";
 import AppLayout from "./ui/AppLayout";
-// import GlobalStyles from "./services/GlobalStyles";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { useState } from "react";
+// import GlobalStyles from "./services/GlobalStyles";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { createContext, useState } from "react";
+// import { createContext, useState } from "react";
 
 // Create a client
 const queryClient = new QueryClient();
-const VideosContext = createContext();
+// const VideosContext = createContext();
 
 function App() {
   const [filterArtists, setFilterArtists] = useState([]);
+  const [filterDifficulty, setFilterDifficulty] = useState([]);
 
   return (
     <>
@@ -24,6 +26,8 @@ function App() {
                 <AppLayout
                   filterArtists={filterArtists}
                   setFilterArtists={setFilterArtists}
+                  filterDifficulty={filterDifficulty}
+                  setFilterDifficulty={setFilterDifficulty}
                 />
               }
             >
@@ -36,6 +40,8 @@ function App() {
                   <Videos
                     filterArtists={filterArtists}
                     setFilterArtists={setFilterArtists}
+                    filterDifficulty={filterDifficulty}
+                    setfilterDifficulty={setFilterDifficulty}
                   />
                   // </VideosContext.Provider>
                 }

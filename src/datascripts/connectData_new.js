@@ -13,7 +13,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
     .from("dance_tutorial_videos")
     .select("id, song, url")
     .eq("tutorial", "tutorial")
-    .eq("slowed", false)
     .order("date", { ascending: false });
   // .limit(10);
 

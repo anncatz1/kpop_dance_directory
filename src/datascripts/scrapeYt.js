@@ -18,19 +18,19 @@ function extractBetweenQuotes(title) {
     : null;
 }
 
-async function getVideos(channelId, apiKey, playlistId, pageToken) {
+async function getVideos(channelId, apiKey, pageToken) {
   try {
-    const url = `https://youtube.googleapis.com/youtube/v3/playlistItems?part=id%2Csnippet&playlistId=${playlistId}&key=${apiKey}&maxResults=50`;
+    // const url = `https://youtube.googleapis.com/youtube/v3/playlistItems?part=id%2Csnippet&playlistId=${playlistId}&key=${apiKey}&maxResults=50`;
     // const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=50`;
-    // const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&pageToken=${pageToken}&part=snippet,id&order=date&maxResults=50`;
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&pageToken=${pageToken}&part=snippet,id&order=date&maxResults=50`;
     const response = await axios.get(url);
     const nextPageToken = response.data.nextPageToken;
     const videos = response.data.items.map((item) => ({
       title: item.snippet.title,
-      videoId: item.snippet.resourceId.videoId,
+      videoId: item.videoId,
       date: item.snippet.publishedAt,
-      url: "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
-      difficulty: "beginner",
+      url: "https://www.youtube.com/watch?v=" + item.snippet.videoId,
+      // difficulty: "beginner",
       song: extractBetweenQuotes(item.snippet.title),
     }));
 
@@ -57,15 +57,15 @@ async function getVideos(channelId, apiKey, playlistId, pageToken) {
   }
 }
 
-const channelId = "UC2V-OGycOYuUrKGmgrlVdoA"; //leia
+// const channelId = "UC2V-OGycOYuUrKGmgrlVdoA"; //leia
 // const playlistId = "PLkTUiSDs560YcFVPZwWMbWcktTr43bEKB"; //hard-intermediate
 // const playlistId = "PLkTUiSDs560ZuShD2wZ6pJq3tkHdd8iAB"; //advanced
 // const playlistId = "PLkTUiSDs560bJ7rrn78Z3OG60oWEzv512"; //intermediate
-const playlistId = "PLkTUiSDs560b8beFMQftfUfOFJE_j3P6G"; //beginner
-// const channelId = "UCxFPHT6xj7xmgTkf-vzXylQ"; // Savage Angel's channel ID
+// const playlistId = "PLkTUiSDs560b8beFMQftfUfOFJE_j3P6G"; //beginner
+const channelId = "UCxFPHT6xj7xmgTkf-vzXylQ"; // Savage Angel's channel ID
 // const apiKey = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c"; // Replace with your YouTube Data API key
 const apiKey = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
-const nextPageToken =
-  "EAAaKVBUOkNESWlFRUl3UlVGRlFrUkdSVEkxTUVRMU9UTW9BVEN3eVpDcEJn";
+const nextPageToken = "CN4CEAA";
+//   "EAAaKVBUOkNESWlFRUl3UlVGRlFrUkdSVEkxTUVRMU9UTW9BVEN3eVpDcEJn";
 // getVideos(channelId, apiKey);
-getVideos(channelId, apiKey, playlistId, nextPageToken);
+getVideos(channelId, apiKey, nextPageToken);

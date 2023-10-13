@@ -36,14 +36,26 @@ const TableHeader = styled.header`
   padding: 1rem 1rem;
 `;
 
-function VideosTable({ filterArtists, setFilterArtists }) {
+function VideosTable({
+  filterArtists,
+  setFilterArtists,
+  filterDifficulty,
+  setFilterDifficulty,
+}) {
   const [totalVideos, setTotalVideos] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  // const filterArtist = searchParams.get("artist") || "All";
   const sortBy = searchParams.get("sort") || "date-desc";
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
   const slowed = searchParams.get("slowed") || "false";
+  // const filterArtist = searchParams.get("artist") || "All";
+
+  const difficulties = {
+    beginner: 0,
+    intermediate: 1,
+    "hard-intermediate": 2,
+    advanced: 3,
+  };
 
   const {
     isLoading,
@@ -53,7 +65,7 @@ function VideosTable({ filterArtists, setFilterArtists }) {
     // isFetching,
     // isPreviousData,
   } = useQuery({
-    queryKey: ["dances", page, sortBy, filterArtists],
+    queryKey: ["dances", page, sortBy, filterArtists, filterDifficulty],
     queryFn: () => fetchVideos(),
     keepPreviousData: true,
   });
@@ -62,11 +74,36 @@ function VideosTable({ filterArtists, setFilterArtists }) {
     try {
       let [field, direction] = sortBy.split("-");
       // if (field === "artist") field = "lower_artist";
+      let modifier = direction === "asc";
 
       const { data: videos, error } = await supabase
         .from("dances_duplicate")
-        .select("*", { count: "exact" })
-        .order(field, { ascending: direction === "asc" });
+        .select("*", { count: "exact" });
+      // .order(field, { ascending: direction === "asc" });
+      // .order("title");
+
+      if (field === "artist") {
+        videos.sort((a, b) => {
+          if (a.artist < b.artist) return -1 * modifier;
+          if (a.artist > b.artist) return 1 * modifier;
+          if (a.date > b.date) return -1;
+          if (a.date < b.date) return 1;
+          return 0; // They are equal
+        });
+      } else if (field === "difficulty") {
+        videos.sort((a, b) => {
+          if (difficulties[a.difficulty] < difficulties[b.difficulty])
+            return -1;
+          if (difficulties[a.difficulty] > difficulties[b.difficulty]) return 1;
+          if (a.song < b.song) return -1;
+          if (a.song > b.song) return 1;
+          return 0; // They are equal
+        });
+      }
+
+      if (direction === "desc" && field === "difficulty") {
+        videos.reverse();
+      }
 
       let filteredVideos;
       if (filterArtists.length === 0) filteredVideos = videos;
@@ -74,8 +111,11 @@ function VideosTable({ filterArtists, setFilterArtists }) {
         filteredVideos = videos.filter((video) =>
           filterArtists.includes(video.artist)
         );
-        // setPageTo1();
       }
+      if (filterDifficulty.length !== 0)
+        filteredVideos = filteredVideos.filter((video) =>
+          filterDifficulty.includes(video.difficulty)
+        );
 
       if (error) throw error;
       setTotalVideos(filteredVideos.length);
@@ -90,17 +130,6 @@ function VideosTable({ filterArtists, setFilterArtists }) {
 
   // filter
   // const mirror = searchParams.get("mirrored");
-  // let dancePractices;
-  // if (filterValue === "all") filteredCabins = cabins;
-  // if (mirror === true)
-  //   dancePractices = videos.filter((cabin) => cabin.discount === 0);
-  // if (filterValue === "with-discount")
-  //   filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
-
-  // function setPageTo1() {
-  //   searchParams.set("page", 1);
-  //   setSearchParams(searchParams);
-  // }
 
   function handlePage(event, value) {
     searchParams.set("page", value);
@@ -112,6 +141,7 @@ function VideosTable({ filterArtists, setFilterArtists }) {
 
   return (
     <>
+      <span className="mb-3">{totalVideos} results</span>
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>

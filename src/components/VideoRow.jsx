@@ -1,5 +1,6 @@
 import Video from "./VideoPlayer";
 import styled from "styled-components";
+import { format } from "date-fns";
 
 const TableRow = styled.div`
   display: grid;
@@ -12,7 +13,8 @@ const TableRow = styled.div`
   /* border-bottom: 1px solid slategray; */
 
   @media (max-width: 1250px) {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     padding: 2rem 3rem;
   }
 
@@ -72,14 +74,20 @@ const TableRow2Vid = styled.div`
   padding: 3rem 0rem;
 `;
 
+function capitalize(item) {
+  return item?.at(0).toUpperCase() + item?.slice(1);
+}
+
 function VideoRow({ row, slowed }) {
   return (
     <TableRow>
-      <h4 className="text-center space-y-3">
-        <div>{row.song}</div>
+      <h4 className="text-center space-y-2">
+        <div>
+          <p className="font-semibold">{row.song}</p>
+        </div>
         <div>{row.artist}</div>
-        <div>{row.date}</div>
-        <div>{row.difficulty}</div>
+        <div>Release date: {format(new Date(row.date), "MM/dd/yyyy")}</div>
+        <div>{row.difficulty ? capitalize(row.difficulty) : ""}</div>
       </h4>
       <TutorialBox>
         <Video url={row.dance_url} />

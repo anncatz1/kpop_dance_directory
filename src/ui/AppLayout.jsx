@@ -11,6 +11,14 @@ const StyledAppLayout = styled.div`
   grid-template-areas:
     "header header"
     "sidebar main";
+
+  /* @media (max-width: 825px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+  } */
 `;
 
 const HeaderContainer = styled.div`
@@ -26,6 +34,9 @@ const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 2rem 3rem 3.2rem;
   overflow: scroll;
+  @media (max-width: 1250px) {
+    padding: 2rem 2rem;
+  }
 `;
 
 const Container = styled.div`
@@ -38,7 +49,7 @@ const Container = styled.div`
     padding: 0rem 6rem;
   }
   @media (max-width: 1250px) {
-    padding: 0rem 5rem;
+    padding: 0rem 2rem;
   }
   /*
   @media (min-width: 1000px) {
@@ -46,7 +57,12 @@ const Container = styled.div`
   } */
 `;
 
-function AppLayout({ filterArtists, setFilterArtists }) {
+function AppLayout({
+  filterArtists,
+  setFilterArtists,
+  filterDifficulty,
+  setFilterDifficulty,
+}) {
   return (
     <StyledAppLayout>
       <HeaderContainer>
@@ -56,6 +72,8 @@ function AppLayout({ filterArtists, setFilterArtists }) {
         <Sidebar
           filterArtists={filterArtists}
           setFilterArtists={setFilterArtists}
+          filterDifficulty={filterDifficulty}
+          setFilterDifficulty={setFilterDifficulty}
         />
       </SidebarContainer>
 
