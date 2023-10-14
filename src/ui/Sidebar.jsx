@@ -4,6 +4,7 @@ import { FormGroup, FormControlLabel } from "@mui/material";
 import supabase from "../services/supabase";
 // import { useSearchParams } from "react-router-dom";
 import ControlledCheckbox from "./ControlledCheckbox";
+import ControlledCheckbox2 from "./ControlledCheckbox_2";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -21,22 +22,40 @@ function Sidebar({
   setFilterDifficulty,
 }) {
   const [artists, setArtists] = useState([]); //all artists
+  const [artistsObj, setArtistsObj] = useState([]); //all artists
   // const [filterDifficulty, setFilterDifficulty] = useState([]);
 
   useEffect(() => {
     fetchArtists();
   }, []);
 
+  useEffect(() => {
+    fetchArtists2();
+  }, []);
+
   async function fetchArtists() {
     try {
       const { data, error } = await supabase
         .from("artists")
-        .select("Name", { count: "exact" })
+        .select("Name")
         .eq("Exists", true);
-      // .neq("Group_Type", "SOLO");
 
       if (error) throw error;
       setArtists(data);
+    } catch (error) {
+      console.error("Failed to fetch videos:", error);
+    }
+  }
+
+  async function fetchArtists2() {
+    try {
+      const { data, error } = await supabase
+        .from("artists")
+        .select("*")
+        .eq("Exists", true);
+
+      if (error) throw error;
+      setArtistsObj(data);
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
@@ -80,33 +99,35 @@ function Sidebar({
         ))}
       </FormGroup>
 
-      {/* <FormGroup>
+      <FormGroup>
         <span className="font-semibold text-lg">Artist: </span>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
-            <Checkbox
-              // checked={checked}
-              // onChange={handleChange}
-              inputProps={{ "aria-label": "controlled" }}
+            <ControlledCheckbox2
+              param={filterArtists}
+              setParam={setFilterArtists}
+              label="BOY"
+              artists={artistsObj}
             />
           }
-          label="Boy Group"
+          label="Boy Groups"
         />
 
         <FormControlLabel
           control={
-            <Checkbox
-              // checked={checked}
-              // onChange={handleChange}
-              inputProps={{ "aria-label": "controlled" }}
+            <ControlledCheckbox2
+              param={filterArtists}
+              setParam={setFilterArtists}
+              label="GIRL"
+              artists={artistsObj}
             />
           }
-          label="Girl Group"
-        />
-      </FormGroup>*/}
+          label="Girl Groups"
+        /> */}
+      </FormGroup>
 
       <FormGroup>
-        <span className="font-medium text-lg mb-1">Artist: </span>
+        {/* <span className="font-medium text-lg mb-1">Artist: </span> */}
         {artists.map((item) => (
           <FormControlLabel
             key={item.Name}

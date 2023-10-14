@@ -2,12 +2,7 @@ import { useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
-function ControlledCheckbox({
-  param = [],
-  setParam,
-  label,
-  defaultCheck = false,
-}) {
+function ControlledCheckbox({ param = [], setParam, artists, label }) {
   const [checked, setChecked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   // const { filterArtists, setFilterArtists } = useContext(VideosContext);
@@ -20,12 +15,14 @@ function ControlledCheckbox({
   const handleCheck = (e) => {
     setChecked((prev) => !prev);
 
-    if (!checked) {
-      const newArray = [...param, label];
-      // console.log(newArray);
+    if (checked) {
+      // const newArray = artists.filter((item) => item.Group_Type !== label);
+      const newArray = artists;
+      console.log(newArray);
       setParam(newArray);
     } else {
-      const newArray = param.filter((item) => item !== label);
+      const newArray = artists.filter((item) => item.Group_Type === label);
+      console.log(newArray, label);
       setParam(newArray);
     }
 

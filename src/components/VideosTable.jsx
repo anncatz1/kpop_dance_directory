@@ -89,8 +89,6 @@ function VideosTable({
         .from("dances_duplicate")
         .select("*", { count: "exact" })
         .order(field, { ascending: direction === "asc" });
-      // .order("title");
-      // console.log(videos.map((video) => video.lower_artist));
 
       if (field === "difficulty") {
         videos.sort((a, b) => {

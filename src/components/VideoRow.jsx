@@ -10,12 +10,11 @@ const TableRow = styled.div`
   justify-items: center;
   padding: 0rem 2rem 0rem 1rem;
   overflow-x: auto;
-  /* border-bottom: 1px solid slategray; */
 
   @media (max-width: 1250px) {
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
+    padding: 2rem 5rem;
     overflow: hidden;
   }
 
@@ -28,7 +27,6 @@ const TutorialBox = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  /* column-gap: 2rem; */
   align-items: center;
   justify-content: center;
   padding: 3rem 0rem;
@@ -36,27 +34,8 @@ const TutorialBox = styled.div`
   & > * {
     // target direct children, which in this case is the video
     flex-grow: 1; // allows the video to grow
-    min-width: 400px; // ensures a minimum width for the video
-  }
-
-  @media (max-width: 1250px) {
-    padding: 1rem 4rem;
-  }
-`;
-
-const TableRow1Vid = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  column-gap: 2rem;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 0rem;
-  max-width: 720px;
-  & > * {
-    // target direct children, which in this case is the video
-    flex-grow: 1; // allows the video to grow
-    min-width: 400px; // ensures a minimum width for the video
+    min-width: 450px; // ensures a minimum width for the video
+    max-width: 450px;
   }
 
   @media (max-width: 1250px) {
@@ -73,6 +52,19 @@ const TableRow2Vid = styled.div`
   align-items: center; // center the videos vertically
   justify-content: start; // start the videos from the left
   padding: 3rem 0rem;
+
+  @media (max-width: 1250px) {
+    padding: 1rem 0rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+  }
+
+  & > * {
+    // target direct children, which in this case is the video
+    flex-grow: 1; // allows the video to grow
+    min-width: 450px; // ensures a minimum width for the video
+  }
 `;
 
 function capitalize(item) {
@@ -83,11 +75,11 @@ function VideoRow({ row, slowed }) {
   return (
     <TableRow>
       <div>
-        <div className="text-center mb-2 sm:mb-3">
+        <div className="text-center mb-2 sm:mb-3 md:mb-4">
           <p className="font-medium text-lg">{row.song}</p>
           <p className="text-lg">{row.artist}</p>
         </div>
-        <div className="text-center sm:space-y-1 mb-1 sm:mb-2">
+        <div className="text-center sm:space-y-2 mb-1 sm:mb-2 xl:space-y-3">
           <p className="text-base">
             Release date: {format(new Date(row.date), "MM/dd/yyyy")}
           </p>
@@ -115,9 +107,9 @@ function VideoRow({ row, slowed }) {
           {row.tutorial_urls.at(1) && <Video url={row.tutorial_urls.at(1)} />}
         </TableRow2Vid>
       ) : (
-        <TableRow1Vid>
+        <TutorialBox>
           <Video url={row.tutorial_urls?.at(0)} />
-        </TableRow1Vid>
+        </TutorialBox>
       )}
     </TableRow>
   );

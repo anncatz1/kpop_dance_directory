@@ -4,9 +4,7 @@ import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
 
 function DanceTableOps() {
-  // const theme = useTheme();
   const isSmallScreen = useMediaQuery("(max-width:500px)");
-  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div className="flex items-center sm:justify-end gap-6 justify-between">
