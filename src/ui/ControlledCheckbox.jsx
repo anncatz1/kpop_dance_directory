@@ -2,12 +2,7 @@ import { useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
-function ControlledCheckbox({
-  param = [],
-  setParam,
-  label,
-  defaultCheck = false,
-}) {
+function ControlledCheckbox({ param = [], setParam, label }) {
   const [checked, setChecked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   // const { filterArtists, setFilterArtists } = useContext(VideosContext);
@@ -22,22 +17,27 @@ function ControlledCheckbox({
 
     if (!checked) {
       const newArray = [...param, label];
-      // console.log(newArray);
       setParam(newArray);
     } else {
-      const newArray = param.filter((item) => item !== label);
-      setParam(newArray);
+      setParam(param.filter((item) => item !== label));
     }
 
     setPageTo1();
   };
 
   return (
-    <Checkbox
+    <input
+      id={label}
+      type="checkbox"
       checked={checked}
       onChange={handleCheck}
-      inputProps={{ "aria-label": "controlled" }}
     />
+
+    // <Checkbox
+    //   checked={checked}
+    //   onChange={handleCheck}
+    //   inputProps={{ "aria-label": "controlled" }}
+    // />
   );
 }
 

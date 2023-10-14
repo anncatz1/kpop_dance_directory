@@ -1,7 +1,7 @@
 import Heading from "./Heading";
 function NoVideos() {
   return (
-    <div className="text-center">
+    <div className="text-center mt-4">
       <Heading as="h3">No Results</Heading>
     </div>
   );

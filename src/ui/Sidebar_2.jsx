@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useContext } from "react";
-import { FormGroup, FormControlLabel } from "@mui/material";
+import { FormGroup } from "@mui/material";
 import supabase from "../services/supabase";
 // import { useSearchParams } from "react-router-dom";
 import ControlledCheckbox from "./ControlledCheckbox";
-import ControlledCheckbox2 from "./ControlledCheckbox_2";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -12,7 +11,7 @@ const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.5rem;
 `;
 
 function Sidebar({
@@ -21,7 +20,6 @@ function Sidebar({
   filterDifficulty,
   setFilterDifficulty,
 }) {
-  // const [artists, setArtists] = useState([]); //all artists
   const [artistsObj, setArtistsObj] = useState([]); //all artists
   const [checkboxes, setCheckboxes] = useState([]);
 
@@ -117,31 +115,11 @@ function Sidebar({
     }
   }
 
-  // useEffect(() => {
-  //   fetchArtists();
-  // }, []);
-
-  // async function fetchArtists() {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from("artists")
-  //       .select("Name")
-  //       .eq("Exists", true);
-
-  //     if (error) throw error;
-  //     // const artists = data.map((artist) => artist.Name);
-  //     // console.log(artists);
-  //     setArtists(data);
-  //   } catch (error) {
-  //     console.error("Failed to fetch videos:", error);
-  //   }
-  // }
-
   useEffect(() => {
-    fetchArtists2();
+    fetchArtists();
   }, []);
 
-  async function fetchArtists2() {
+  async function fetchArtists() {
     try {
       const { data, error } = await supabase
         .from("artists")
@@ -149,16 +127,16 @@ function Sidebar({
         .eq("Exists", true)
         .order("Name");
 
+      data.sort((a, b) =>
+        a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
+      );
+
       if (error) throw error;
       setArtistsObj(data);
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     }
   }
-
-  // artists.sort((a, b) =>
-  //   a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
-  // );
 
   function capitalize(item) {
     return item?.at(0).toUpperCase() + item?.slice(1);
@@ -174,132 +152,56 @@ function Sidebar({
   return (
     <StyledSidebar>
       <div className="flex flex-col">
-        <span className="mb-3 text-xl">Filter by: </span>
+        <span className="mb-2 text-xl">Filter by: </span>
       </div>
-      <FormGroup className="mb-1">
-        <span className="font-medium text-lg mb-1">Difficulty: </span>
+
+      <span className="font-medium text-lg mb-1">Difficulty: </span>
+      <div>
         {difficulties.map((item) => (
-          // <div key={item}>
-          //   <input
-          //     id={item}
-          //     type="checkbox"
-          //     param={filterDifficulty}
-          //     setParam={setFilterDifficulty}
-          //     label={item}
-          //     checked={checked}
-          //     onChange={handleCheck}
-          //   />{" "}
-          //   {capitalize(item)}
-          // </div>
-          <FormControlLabel
-            key={item}
-            control={
+          <div key={item}>
+            <label class="form-control">
               <ControlledCheckbox
                 param={filterDifficulty}
                 setParam={setFilterDifficulty}
                 label={item}
               />
-            }
-            label={capitalize(item)}
-          />
+              {capitalize(item)}
+            </label>
+          </div>
         ))}
-      </FormGroup>
+      </div>
 
-      <div>
-        <input
-          type="checkbox"
-          onChange={handleGirls}
-          // style={{ fontSize: "10rem", margin: "0px 4px 0px 0px" }}
-        />{" "}
-        Girls
-        <input type="checkbox" onChange={handleBoys} /> Boys
-        <input type="checkbox" onChange={handleSolo} /> Solo
+      <span className="font-medium text-lg mb-1">Artist: </span>
+      <div className="flex items-center justify-between w-full">
+        <label class="form-control">
+          <input type="checkbox" onChange={handleGirls} />
+          Girls
+        </label>
+        <label class="form-control">
+          <input type="checkbox" onChange={handleBoys} /> Boys
+        </label>
+        <label class="form-control">
+          <input type="checkbox" onChange={handleSolo} /> Solo
+        </label>
       </div>
 
       <div>
         {checkboxes.map((checkbox, index) => (
           <div key={index}>
-            <input
-              id={checkbox.label}
-              type="checkbox"
-              checked={checkbox.checked}
-              onChange={(e) => handleCheckboxChange(e, index)}
-              style={{ margin: "8px 0px" }}
-            />{" "}
-            {checkbox.label}
+            <label class="form-control">
+              <input
+                id={checkbox.label}
+                type="checkbox"
+                checked={checkbox.checked}
+                onChange={(e) => handleCheckboxChange(e, index)}
+              />{" "}
+              {checkbox.label}
+            </label>
           </div>
         ))}
       </div>
     </StyledSidebar>
   );
-  // return (
-  //   <StyledSidebar>
-  //     <div className="flex flex-col">
-  //       <span className="mb-3 text-xl">Filter by: </span>
-  //     </div>
-
-  //     <FormGroup className="mb-1">
-  //       <span className="font-medium text-lg mb-1">Difficulty: </span>
-  //       {difficulties.map((item) => (
-  //         <FormControlLabel
-  //           key={item}
-  //           control={
-  //             <ControlledCheckbox
-  //               param={filterDifficulty}
-  //               setParam={setFilterDifficulty}
-  //               label={item}
-  //             />
-  //           }
-  //           label={capitalize(item)}
-  //         />
-  //       ))}
-  //     </FormGroup>
-
-  //     <FormGroup>
-  //       <span className="font-semibold text-lg">Artist: </span>
-  //       {/* <FormControlLabel
-  //       control={
-  //         <ControlledCheckbox2
-  //           param={filterArtists}
-  //           setParam={setFilterArtists}
-  //           label="BOY"
-  //           artists={artistsObj}
-  //         />
-  //       }
-  //       label="Boy Groups"
-  //     />
-
-  //     <FormControlLabel
-  //       control={
-  //         <ControlledCheckbox2
-  //           param={filterArtists}
-  //           setParam={setFilterArtists}
-  //           label="GIRL"
-  //           artists={artistsObj}
-  //         />
-  //       }
-  //       label="Girl Groups"
-  //     /> */}
-  //     </FormGroup>
-
-  //     <FormGroup>
-  //       {/* <span className="font-medium text-lg mb-1">Artist: </span> */}
-  //       {artists.map((item) => (
-  //         <FormControlLabel
-  //           key={item.Name}
-  //           control={
-  //             <ControlledCheckbox
-  //               param={filterArtists}
-  //               setParam={setFilterArtists}
-  //               label={item.Name}
-  //             />
-  //           }
-  //           label={item.Name}
-  //         />
-  //       ))}
-  //     </FormGroup>
-  //   </StyledSidebar>
-  // );
 }
 
 export default Sidebar;

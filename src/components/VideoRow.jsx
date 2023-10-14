@@ -5,10 +5,10 @@ import { format } from "date-fns";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 150px 1fr 1fr;
-  column-gap: 2rem;
+  column-gap: 1rem;
   align-items: center;
   justify-items: center;
-  padding: 0rem 2rem 0rem 1rem;
+  padding: 0rem 1rem 0rem 1rem;
   overflow-x: auto;
 
   @media (max-width: 1250px) {
