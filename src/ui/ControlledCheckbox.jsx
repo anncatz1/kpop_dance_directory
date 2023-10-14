@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Checkbox } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
 function ControlledCheckbox({ param = [], setParam, label }) {

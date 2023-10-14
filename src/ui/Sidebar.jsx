@@ -1,10 +1,8 @@
 import styled from "styled-components";
-import React, { useState, useEffect, useContext } from "react";
-import { FormGroup, FormControlLabel } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import supabase from "../services/supabase";
 // import { useSearchParams } from "react-router-dom";
 import ControlledCheckbox from "./ControlledCheckbox";
-import ControlledCheckbox2 from "./ControlledCheckbox_2";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -12,7 +10,7 @@ const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.5rem;
 `;
 
 function Sidebar({
@@ -21,38 +19,116 @@ function Sidebar({
   filterDifficulty,
   setFilterDifficulty,
 }) {
-  const [artists, setArtists] = useState([]); //all artists
   const [artistsObj, setArtistsObj] = useState([]); //all artists
-  // const [filterDifficulty, setFilterDifficulty] = useState([]);
+  const [checkboxes, setCheckboxes] = useState([]);
+
+  useEffect(() => {
+    if (artistsObj.length > 0) {
+      const initialState = artistsObj.map((artist) => ({
+        label: artist.Name,
+        checked: false,
+      }));
+      setCheckboxes(initialState);
+    }
+  }, [artistsObj]);
+
+  function handleGirls(event) {
+    const isChecked = event.target.checked;
+    const artistsF = artistsObj.filter(
+      (artist) => artist.Group_Type === "GIRL"
+    );
+
+    const artistF2 = artistsF.map((artist) => artist.Name);
+    setCheckboxes(
+      checkboxes.map((checkbox) => {
+        if (artistF2.includes(checkbox.label))
+          return { ...checkbox, checked: isChecked };
+        return { ...checkbox };
+      })
+    );
+
+    if (isChecked) setFilterArtists(filterArtists.concat(artistF2));
+    else
+      setFilterArtists(
+        filterArtists.filter((artist) => !artistF2.includes(artist))
+      );
+  }
+
+  function handleBoys(event) {
+    const isChecked = event.target.checked;
+    const artistsF = artistsObj.filter((artist) => artist.Group_Type === "BOY");
+
+    const artistF2 = artistsF.map((artist) => artist.Name);
+    setCheckboxes(
+      checkboxes.map((checkbox) => {
+        if (artistF2.includes(checkbox.label))
+          return { ...checkbox, checked: isChecked };
+        return { ...checkbox };
+      })
+    );
+
+    if (isChecked) setFilterArtists(filterArtists.concat(artistF2));
+    else
+      setFilterArtists(
+        filterArtists.filter((artist) => !artistF2.includes(artist))
+      );
+  }
+
+  function handleSolo(event) {
+    const isChecked = event.target.checked;
+    const artistsF = artistsObj.filter(
+      (artist) => artist.Group_Type === "SOLO"
+    );
+
+    const artistF2 = artistsF.map((artist) => artist.Name);
+    setCheckboxes(
+      checkboxes.map((checkbox) => {
+        if (artistF2.includes(checkbox.label))
+          return { ...checkbox, checked: isChecked };
+        return { ...checkbox };
+      })
+    );
+
+    if (isChecked) setFilterArtists(filterArtists.concat(artistF2));
+    else {
+      const filtered = filterArtists.filter(
+        (artist) => !artistF2.includes(artist)
+      );
+      setFilterArtists(filtered);
+    }
+  }
+
+  function handleCheckboxChange(e, index) {
+    setCheckboxes(
+      checkboxes.map((checkbox, i) =>
+        i === index ? { ...checkbox, checked: !checkbox.checked } : checkbox
+      )
+    );
+
+    if (e.target.checked) {
+      const newArray = [...filterArtists, e.target.id];
+      setFilterArtists(newArray);
+    } else {
+      const newArray = filterArtists.filter((item) => item !== e.target.id);
+      setFilterArtists(newArray);
+    }
+  }
 
   useEffect(() => {
     fetchArtists();
-  }, []);
-
-  useEffect(() => {
-    fetchArtists2();
   }, []);
 
   async function fetchArtists() {
     try {
       const { data, error } = await supabase
         .from("artists")
-        .select("Name")
-        .eq("Exists", true);
-
-      if (error) throw error;
-      setArtists(data);
-    } catch (error) {
-      console.error("Failed to fetch videos:", error);
-    }
-  }
-
-  async function fetchArtists2() {
-    try {
-      const { data, error } = await supabase
-        .from("artists")
         .select("*")
-        .eq("Exists", true);
+        .eq("Exists", true)
+        .order("Name");
+
+      data.sort((a, b) =>
+        a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
+      );
 
       if (error) throw error;
       setArtistsObj(data);
@@ -60,10 +136,6 @@ function Sidebar({
       console.error("Failed to fetch videos:", error);
     }
   }
-
-  artists.sort((a, b) =>
-    a.Name.localeCompare(b.Name, undefined, { sensitivity: "base" })
-  );
 
   function capitalize(item) {
     return item?.at(0).toUpperCase() + item?.slice(1);
@@ -79,69 +151,54 @@ function Sidebar({
   return (
     <StyledSidebar>
       <div className="flex flex-col">
-        <span className="mb-3 text-xl">Filter by: </span>
+        <span className="mb-2 text-xl">Filter by: </span>
       </div>
 
-      <FormGroup className="mb-1">
-        <span className="font-medium text-lg mb-1">Difficulty: </span>
+      <span className="font-medium text-lg mb-1">Difficulty: </span>
+      <div>
         {difficulties.map((item) => (
-          <FormControlLabel
-            key={item}
-            control={
+          <div key={item}>
+            <label className="form-control">
               <ControlledCheckbox
                 param={filterDifficulty}
                 setParam={setFilterDifficulty}
                 label={item}
               />
-            }
-            label={capitalize(item)}
-          />
+              {capitalize(item)}
+            </label>
+          </div>
         ))}
-      </FormGroup>
+      </div>
 
-      <FormGroup>
-        <span className="font-semibold text-lg">Artist: </span>
-        {/* <FormControlLabel
-          control={
-            <ControlledCheckbox2
-              param={filterArtists}
-              setParam={setFilterArtists}
-              label="BOY"
-              artists={artistsObj}
-            />
-          }
-          label="Boy Groups"
-        />
+      <span className="font-medium text-lg mb-1">Artist: </span>
+      <div className="flex items-center justify-between w-full">
+        <label className="form-control">
+          <input type="checkbox" onChange={handleGirls} />
+          Girls
+        </label>
+        <label className="form-control">
+          <input type="checkbox" onChange={handleBoys} /> Boys
+        </label>
+        <label className="form-control">
+          <input type="checkbox" onChange={handleSolo} /> Solo
+        </label>
+      </div>
 
-        <FormControlLabel
-          control={
-            <ControlledCheckbox2
-              param={filterArtists}
-              setParam={setFilterArtists}
-              label="GIRL"
-              artists={artistsObj}
-            />
-          }
-          label="Girl Groups"
-        /> */}
-      </FormGroup>
-
-      <FormGroup>
-        {/* <span className="font-medium text-lg mb-1">Artist: </span> */}
-        {artists.map((item) => (
-          <FormControlLabel
-            key={item.Name}
-            control={
-              <ControlledCheckbox
-                param={filterArtists}
-                setParam={setFilterArtists}
-                label={item.Name}
-              />
-            }
-            label={item.Name}
-          />
+      <div>
+        {checkboxes.map((checkbox, index) => (
+          <div key={index}>
+            <label className="form-control">
+              <input
+                id={checkbox.label}
+                type="checkbox"
+                checked={checkbox.checked}
+                onChange={(e) => handleCheckboxChange(e, index)}
+              />{" "}
+              {checkbox.label}
+            </label>
+          </div>
         ))}
-      </FormGroup>
+      </div>
     </StyledSidebar>
   );
 }

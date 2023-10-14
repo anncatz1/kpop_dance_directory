@@ -1,19 +1,9 @@
 const { createClient } = require("@supabase/supabase-js");
-// const fetch = require("node-fetch");
 
 const supabaseUrl = "https://onmcnotmyeildgqtsbwl.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ubWNub3RteWVpbGRncXRzYndsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYzNjE0ODEsImV4cCI6MjAxMTkzNzQ4MX0.SN9ZMZxfPFI84rsxCaUVMorkvE51Rv7MSVg7znw5MtA";
 const supabase = createClient(supabaseUrl, supabaseKey);
-
-// function extractBetweenQuotes(title) {
-//   const matches = title.match(
-//     /`([^`]+)`|'([^']+)'|“([^”]+)”|’([^’]+)’|"([^"]+)"/
-//   );
-//   return matches
-//     ? matches[1] || matches[2] || matches[3] || matches[4] || matches[5]
-//     : null;
-// }
 
 async function searchYouTube(query) {
   // const query1 = query + "Dance Practice";
@@ -77,9 +67,9 @@ async function processTutorials() {
     //   return;
   }
 
-  const queries = ["LIAR LIAR"];
-  for (const query of queries) {
-    // const query = tutorial.song;
+  // const queries = ["LIAR LIAR"];
+  for (const tutorial of tutorials) {
+    const query = tutorial.song;
 
     if (query) {
       const result = await searchYouTube(query);

@@ -1,4 +1,4 @@
-import Heading from "./Heading";
+import Heading from "../old/Heading";
 function NoVideos() {
   return (
     <div className="text-center mt-4">

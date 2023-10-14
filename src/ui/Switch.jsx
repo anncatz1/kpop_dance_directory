@@ -1,18 +1,47 @@
 import { useSearchParams } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { useState } from "react";
+
+// function SwitchButton({ filterField, label }) {
+//   const [searchParams, setSearchParams] = useSearchParams();
+//   const currentFilter = searchParams.get(filterField);
+//   const isTrueSet = currentFilter === "true";
+
+//   function handleClick(e) {
+//     searchParams.set(filterField, e.target.checked);
+//     setSearchParams(searchParams);
+//   }
+
+//   return (
+//     <FormGroup>
+//       <FormControlLabel
+//         control={
+//           <Switch
+//             onClick={(e) => handleClick(e)}
+//             color="secondary"
+//             checked={isTrueSet}
+//           />
+//         }
+//         label="Show Slowed"
+//       />
+//     </FormGroup>
+//   );
+// }
 
 function SwitchButton({ filterField, label }) {
-  // const theme = useTheme();
   const isSmallScreen = useMediaQuery("(max-width:950px)");
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterField);
-  const isTrueSet = currentFilter === "true";
+  // const currentFilter = searchParams.get(filterField);
+  // const isTrueSet = currentFilter === "true";
+  const [checked, setChecked] = useState(false);
 
   function handleClick(e) {
-    searchParams.set(filterField, e.target.checked);
-    setSearchParams(searchParams);
+    console.log(checked);
+    setChecked((checked) => !checked);
+    // console.log(isTrueSet);
+    // searchParams.set(filterField, e.target.checked);
+    // setSearchParams(searchParams);
   }
 
   return (
@@ -20,13 +49,14 @@ function SwitchButton({ filterField, label }) {
       <FormControlLabel
         control={
           <Switch
-            onClick={(e) => handleClick(e)}
+            onClick={handleClick}
             color="secondary"
-            checked={isTrueSet}
+            checked={checked}
             size={isSmallScreen ? "small" : "medium"}
+            inputProps={{ "aria-label": "controlled" }}
           />
         }
-        label={label}
+        label="Show Slowed Tutorials"
         sx={{
           "& .MuiFormControlLabel-label": {
             fontSize: `${isSmallScreen ? "0.8rem" : "1rem"}`,

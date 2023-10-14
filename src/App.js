@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Videos from "./pages/Videos";
 import AppLayout from "./ui/AppLayout";
 import { QueryClient, QueryClientProvider } from "react-query";

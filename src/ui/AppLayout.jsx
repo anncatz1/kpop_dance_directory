@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import styled from "styled-components";
-import Sidebar from "./Sidebar_2";
+import Sidebar from "./Sidebar";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -13,7 +13,6 @@ const StyledAppLayout = styled.div`
     "sidebar main";
 
   @media (max-width: 768px) {
-    // Adjusted breakpoint to 768px
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
@@ -41,14 +40,16 @@ const Main = styled.main`
   padding: 2rem 3rem 3.2rem;
   overflow: scroll;
 
+  @media (max-width: 1600px) {
+    padding: 2rem 1rem;
+  }
+
   @media (max-width: 1250px) {
     padding: 2rem 2rem;
   }
 
   @media (max-width: 768px) {
-    // Hide sidebar on mobile screens
     padding: 2rem 1rem;
-    /* overflow: hidden; */
   }
 `;
 
@@ -61,12 +62,11 @@ const Container = styled.div`
   @media (min-width: 2360px) {
     padding: 0rem 6rem;
   }
-  @media (max-width: 1250px) {
-    padding: 0rem 2rem;
+  @media (max-width: 1600px) {
+    padding: 0rem 1rem;
   }
 
   @media (max-width: 768px) {
-    // Hide sidebar on mobile screens
     padding: 0px;
   }
 `;

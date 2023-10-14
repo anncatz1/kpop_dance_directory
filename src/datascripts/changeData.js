@@ -88,35 +88,50 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // })();
 
 // slowed = true
-// (async () => {
-//   // Fetch all rows from the table
-//   const { data: rows, error } = await supabase
-//     .from("dance_tutorial_videos_duplicate")
-//     .select("id, title");
+/*(async () => {
+  // Fetch all rows from the table
+  const { data: rows, error } = await supabase
+    .from("dance_tutorial_videos_kathleen")
+    .select("id, title");
 
-//   if (error) {
-//     console.error("Error fetching data:", error);
-//     return;
-//   }
+  if (error) {
+    console.error("Error fetching data:", error);
+    return;
+  }
 
-//   for (const row of rows) {
-// if (
-//   row.title.toLowerCase().includes("slowed") ||
-//   row.title.toLowerCase().includes("slow")
-// ) {
-//   // Update the row to have "tutorial" in the tutorial column
-//   await supabase
-//     .from("dance_tutorial_videos_duplicate")
-//     .update({ slowed: true })
-//     .eq("id", row.id);
-// } else {
-//   // Update the row to have "cover" in the tutorial column
-//   await supabase
-//     .from("dance_tutorial_videos_duplicate")
-//     .update({ slowed: false })
-//     .eq("id", row.id);
-// }
+  for (const row of rows) {
+    if (row.title.toLowerCase().includes("tutorial")) {
+      // Update the row to have "tutorial" in the tutorial column
+      await supabase
+        .from("dance_tutorial_videos_kathleen")
+        .update({ tutorial: "tutorial" })
+        .eq("id", row.id);
+    } else {
+      // Update the row to have "cover" in the tutorial column
+      await supabase
+        .from("dance_tutorial_videos_kathleen")
+        .update({ tutorial: "cover" })
+        .eq("id", row.id);
+    }
 
+    if (
+      row.title.toLowerCase().includes("slowed") ||
+      row.title.toLowerCase().includes("slow")
+    ) {
+      // Update the row to have "tutorial" in the tutorial column
+      await supabase
+        .from("dance_tutorial_videos_kathleen")
+        .update({ slowed: true })
+        .eq("id", row.id);
+    } else {
+      // Update the row to have "cover" in the tutorial column
+      await supabase
+        .from("dance_tutorial_videos_kathleen")
+        .update({ slowed: false })
+        .eq("id", row.id);
+    }
+  }
+})();*/
 //     if (
 //       row.title.toLowerCase().includes("full tutorial") ||
 //       row.title.toLowerCase().includes("full dance tutorial") ||
@@ -185,11 +200,39 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // })();
 
 // add artist id
+// (async () => {
+//   // Fetch all rows from the table
+//   const { data: rows, error } = await supabase
+//     .from("dances")
+//     .select("id, artist");
+
+//   if (error) {
+//     console.error("Error fetching data:", error);
+//     return;
+//   }
+
+//   for (const row of rows) {
+//     const { data, error } = await supabase
+//       .from("artists")
+//       .select("Name")
+//       .eq("Name", row.artist)
+//       .single();
+//     console.log(data);
+
+//     if (data !== null)
+//       await supabase
+//         .from("dances")
+//         .update({ artist_id: data.Name })
+//         .eq("id", row.id);
+//   }
+// })();
+
 (async () => {
   // Fetch all rows from the table
   const { data: rows, error } = await supabase
-    .from("dances")
-    .select("id, artist");
+    .from("dances_duplicate")
+    .select("id, full_tutorial")
+    .eq("full_tutorial", true);
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -197,17 +240,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
   }
 
   for (const row of rows) {
-    const { data, error } = await supabase
-      .from("artists")
-      .select("Name")
-      .eq("Name", row.artist)
-      .single();
-    console.log(data);
-
-    if (data !== null)
-      await supabase
-        .from("dances")
-        .update({ artist_id: data.Name })
-        .eq("id", row.id);
+    await supabase
+      .from("dances_duplicate")
+      .update({ full_tutorial: "full" })
+      .eq("id", row.id);
   }
 })();

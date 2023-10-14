@@ -7,8 +7,6 @@ function Header() {
         <p className="text-3xl hover:text-slate-800 text-left p-2">
           Dance Tutorials Directory
         </p>
-        {/* <div className="flex items-center space-x-4"> */}
-        {/* </div> */}
       </div>
     </div>
   );
