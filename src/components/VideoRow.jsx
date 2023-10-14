@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 160px 1fr 1fr;
+  grid-template-columns: 170px 1fr 1fr;
   column-gap: 1rem;
   align-items: center;
   justify-items: center;

@@ -32,17 +32,18 @@ import { useState } from "react";
 function SwitchButton({ filterField, label }) {
   const isSmallScreen = useMediaQuery("(max-width:950px)");
   const [searchParams, setSearchParams] = useSearchParams();
-  // const currentFilter = searchParams.get(filterField);
-  // const isTrueSet = currentFilter === "true";
-  const [checked, setChecked] = useState(false);
+  const currentFilter = searchParams.get(filterField);
+  const isTrueSet = currentFilter === "true";
+  // const [checked, setChecked] = useState(false);
 
   function handleClick(e) {
-    console.log(checked);
-    setChecked((checked) => !checked);
-    // console.log(isTrueSet);
-    // searchParams.set(filterField, e.target.checked);
-    // setSearchParams(searchParams);
+    // console.log(checked);
+    // setChecked((checked) => !checked);
+    // console.log("checked", e.target.checked);
+    searchParams.set(filterField, e.target.checked);
+    setSearchParams(searchParams);
   }
+  // console.log(isTrueSet);
 
   return (
     <FormGroup>
@@ -51,7 +52,7 @@ function SwitchButton({ filterField, label }) {
           <Switch
             onClick={handleClick}
             color="secondary"
-            checked={checked}
+            checked={isTrueSet}
             size={isSmallScreen ? "small" : "medium"}
             inputProps={{ "aria-label": "controlled" }}
           />

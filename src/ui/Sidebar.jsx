@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import supabase from "../services/supabase";
 // import { useSearchParams } from "react-router-dom";
 import ControlledCheckbox from "./ControlledCheckbox";
+import { useSearchParams } from "react-router-dom";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
@@ -21,6 +22,12 @@ function Sidebar({
 }) {
   const [artistsObj, setArtistsObj] = useState([]); //all artists
   const [checkboxes, setCheckboxes] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function setPageTo1() {
+    searchParams.set("page", 1);
+    setSearchParams(searchParams);
+  }
 
   useEffect(() => {
     if (artistsObj.length > 0) {
@@ -112,6 +119,8 @@ function Sidebar({
       const newArray = filterArtists.filter((item) => item !== e.target.id);
       setFilterArtists(newArray);
     }
+
+    setPageTo1();
   }
 
   useEffect(() => {
