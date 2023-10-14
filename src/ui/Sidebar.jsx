@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 
 const StyledSidebar = styled.aside`
   background-color: var(--color-grey-0);
-  padding: 2rem 2.4rem;
+  padding: 1.5rem 2.4rem;
   border-right: 1px solid var(--color-grey-100);
   display: flex;
   flex-direction: column;

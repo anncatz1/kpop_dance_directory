@@ -41,7 +41,7 @@ const Main = styled.main`
   overflow: scroll;
 
   @media (max-width: 1600px) {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
 
   @media (max-width: 1250px) {

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 170px 1fr 1fr;
-  column-gap: 1rem;
+  column-gap: 1.5rem;
   align-items: center;
   justify-items: center;
   padding: 0rem 1rem 0rem 1rem;
@@ -51,10 +51,10 @@ const TableRow2Vid = styled.div`
   column-gap: 2rem;
   align-items: center; // center the videos vertically
   justify-content: start; // start the videos from the left
-  padding: 3rem 0rem;
+  padding: 1rem 1rem 1rem 0rem;
 
   @media (max-width: 1250px) {
-    padding: 1rem 0rem;
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     row-gap: 2rem;

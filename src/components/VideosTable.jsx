@@ -22,7 +22,7 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 120px 1fr 1fr;
+  grid-template-columns: 170px 1fr 1fr;
   column-gap: 2rem;
   align-items: center;
   justify-items: center;
@@ -141,7 +141,7 @@ function VideosTable({
 
   return (
     <>
-      <span className="mb-3">{totalVideos} results</span>
+      <span className="mb-2">{totalVideos} results</span>
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>

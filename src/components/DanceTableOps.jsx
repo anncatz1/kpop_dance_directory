@@ -1,17 +1,11 @@
-import useMediaQuery from "@mui/material/useMediaQuery";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
 
 function DanceTableOps() {
-  // const isSmallScreen = useMediaQuery("(max-width:500px)");
-
   return (
-    <div className="flex items-center sm:justify-end gap-6 justify-between">
+    <div className="flex items-center sm:justify-end gap-6 justify-between mb-2">
       {/* <SwitchButton filterField="mirrored" label="Mirrored" /> */}
-      <SwitchButton
-        filterField="slowed"
-        // label={isSmallScreen ? "Slowed" : "Show Slowed Tutorials"}
-      />
+      <SwitchButton filterField="slowed" />
 
       <SortBy
         options={[
