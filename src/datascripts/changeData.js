@@ -88,11 +88,12 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // })();
 
 // slowed = true
-/*(async () => {
+(async () => {
   // Fetch all rows from the table
   const { data: rows, error } = await supabase
     .from("dance_tutorial_videos_kathleen")
-    .select("id, title");
+    .select("id, title, tutorial")
+    .is("tutorial", null);
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -131,7 +132,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
         .eq("id", row.id);
     }
   }
-})();*/
+})();
 //     if (
 //       row.title.toLowerCase().includes("full tutorial") ||
 //       row.title.toLowerCase().includes("full dance tutorial") ||
@@ -227,22 +228,22 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 //   }
 // })();
 
-(async () => {
-  // Fetch all rows from the table
-  const { data: rows, error } = await supabase
-    .from("dances_duplicate")
-    .select("id, full_tutorial")
-    .eq("full_tutorial", true);
+// (async () => {
+//   // Fetch all rows from the table
+//   const { data: rows, error } = await supabase
+//     .from("dances_duplicate")
+//     .select("id, full_tutorial")
+//     .eq("full_tutorial", true);
 
-  if (error) {
-    console.error("Error fetching data:", error);
-    return;
-  }
+//   if (error) {
+//     console.error("Error fetching data:", error);
+//     return;
+//   }
 
-  for (const row of rows) {
-    await supabase
-      .from("dances_duplicate")
-      .update({ full_tutorial: "full" })
-      .eq("id", row.id);
-  }
-})();
+//   for (const row of rows) {
+//     await supabase
+//       .from("dances_duplicate")
+//       .update({ full_tutorial: "full" })
+//       .eq("id", row.id);
+//   }
+// })();

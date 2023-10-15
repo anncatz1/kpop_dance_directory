@@ -80,7 +80,12 @@ function AppLayout({
   return (
     <StyledAppLayout>
       <HeaderContainer>
-        <Header />
+        <Header
+          filterArtists={filterArtists}
+          setFilterArtists={setFilterArtists}
+          filterDifficulty={filterDifficulty}
+          setFilterDifficulty={setFilterDifficulty}
+        />
       </HeaderContainer>
       <SidebarContainer>
         <Sidebar

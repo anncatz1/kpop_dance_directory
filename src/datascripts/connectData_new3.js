@@ -73,7 +73,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       }
     }
     if (added === false) {
-      processTutorials(tutorialVideo.song);
+      console.log(tutorialVideo.song);
+      const query = { song: tutorialVideo.song, artist: tutorialVideo.artist };
+      processTutorials(query);
     }
   }
 
@@ -81,8 +83,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
   for (const item of matches) {
     const { data, error } = await supabase
       .from("dances_duplicate")
-      .select("song")
+      .select("song, artist")
       .ilike("song", item.song)
+      .ilike("artist", item.artist)
       .limit(1);
 
     if (error) {
@@ -112,11 +115,12 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function searchYouTube(query) {
   // const query1 = query + "Dance Practice";
   // const API_KEY = "AIzaSyAwiaOXMA1Ka7ztm5b1ATb0N3OxmUMan5c";
-  const API_KEY = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
-  // const API_KEY = "AIzaSyCXI3RoHHsZmOkn3-jXcEfEOMQI9YYni8I";
+  const query1 = query.song;
+  // const API_KEY = "AIzaSyBYNfYVM524sjTa3B19sib5thoM2yZKTPQ";
+  const API_KEY = "AIzaSyCXI3RoHHsZmOkn3-jXcEfEOMQI9YYni8I";
 
   // mirrored
-  const query2 = query + "Dance Practice Mirrored";
+  const query2 = query1 + "Dance Practice Mirrored";
   const BASE_URL2 = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(
     query2
   )}&key=${API_KEY}`;
@@ -129,12 +133,15 @@ async function searchYouTube(query) {
   const video2 = {
     videoId: data2.items?.at(0).id.videoId,
     videoTitle: data2.items?.at(0).snippet.title,
-    song: query,
+    song: query.song,
+    artist: query.artist,
     url: "https://www.youtube.com/watch?v=" + data2.items?.at(0).id.videoId,
     date: data2.items?.at(0).snippet.publishedAt,
     channel: data2.items?.at(0).snippet.channelTitle,
     mirrored: true,
   };
+
+  console.log(video2);
   if (data2.items?.at(0).id.videoId == null) return [];
   return [video2];
 }
@@ -164,7 +171,7 @@ async function processTutorials(query) {
     if (result.length === 0) return;
     // Do something with the results, e.g., insert into your database
     //   console.log(result);
-    addToDatabase(result, query);
+    addToDatabase(result, query.song);
   }
   // }
 }

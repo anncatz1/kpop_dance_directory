@@ -1,4 +1,5 @@
 import React from "react";
+// import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -6,6 +7,7 @@ function Header() {
       <div className="flex justify-between items-center">
         <p className="text-3xl hover:text-slate-800 text-left p-2">
           Dance Tutorials Directory
+          {/* <NavLink to="/">Dance Tutorials Directory</NavLink> */}
         </p>
       </div>
     </div>

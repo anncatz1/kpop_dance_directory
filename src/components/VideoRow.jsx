@@ -4,17 +4,18 @@ import { format } from "date-fns";
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 170px 1fr 1fr;
-  column-gap: 1.5rem;
+  grid-template-columns: 162px 1fr 1fr;
+  column-gap: 1rem;
   align-items: center;
   justify-items: center;
-  padding: 0rem 1rem 0rem 1rem;
+  padding: 0rem 1rem 0rem 1.3rem;
   overflow-x: auto;
 
   @media (max-width: 1250px) {
     display: flex;
     flex-direction: column;
-    padding: 2rem 5rem;
+    /* row-gap: 0rem; */
+    padding: 2rem 2rem 2rem 0rem;
     overflow: hidden;
   }
 
@@ -29,7 +30,7 @@ const TutorialBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 0rem;
+  padding: 2.5rem 1rem 2.5rem 0rem;
   max-width: 720px;
   & > * {
     // target direct children, which in this case is the video
@@ -39,7 +40,7 @@ const TutorialBox = styled.div`
   }
 
   @media (max-width: 1250px) {
-    padding: 1rem 4rem;
+    padding: 1rem 2rem;
   }
 `;
 
@@ -54,10 +55,10 @@ const TableRow2Vid = styled.div`
   padding: 1rem 1rem 1rem 0rem;
 
   @media (max-width: 1250px) {
-    padding: 1rem 2rem;
+    padding: 0.5rem 0rem;
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 1.5rem;
   }
 
   & > * {
@@ -80,15 +81,20 @@ function VideoRow({ row, slowed }) {
           <p className="text-lg">{row.artist}</p>
         </div>
         <div className="text-center sm:space-y-2 mb-1 sm:mb-2 xl:space-y-3">
-          <p className="text-base">
+          <p className="text-[15px]">
             Release date: {format(new Date(row.date), "MM/dd/yyyy")}
           </p>
           <div className="flex gap-1 justify-center xl:flex-col xl:gap-0">
-            <p className="text-base">Difficulty: </p>
-            <p className="text-base">
-              {row.difficulty ? capitalize(row.difficulty) : ""}
-            </p>
+            {row.difficulty && (
+              <>
+                <p className="text-[15px]">Difficulty: </p>
+                <p className="text-[15px]">{capitalize(row.difficulty)}</p>
+              </>
+            )}
           </div>
+          <p className="text-[15px]">
+            {row.full_tutorial === "full" ? "Full Tutorial" : "Chorus tutorial"}
+          </p>
         </div>
       </div>
       <TutorialBox>
