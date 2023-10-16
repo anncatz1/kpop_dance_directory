@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -10,14 +11,16 @@ const StyledAppLayout = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-areas:
     "header header"
-    "sidebar main";
+    "sidebar main"
+    "footer footer";
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
       "header"
-      "main";
+      "main"
+      "footer";
   }
 `;
 
@@ -32,6 +35,10 @@ const SidebarContainer = styled.div`
     // Hide sidebar on mobile screens
     display: none;
   }
+`;
+
+const FooterContainer = styled.div`
+  grid-area: footer;
 `;
 
 const Main = styled.main`
@@ -55,10 +62,12 @@ const Main = styled.main`
 
 const Container = styled.div`
   max-width: 120rem;
-  margin: 0 auto;
+  margin: 0rem auto 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  /* padding: 0rem 5rem; */
+
   @media (min-width: 2360px) {
     padding: 0rem 6rem;
   }
@@ -101,6 +110,10 @@ function AppLayout({
           <Outlet />
         </Container>
       </Main>
+
+      <FooterContainer>
+        <Footer />
+      </FooterContainer>
     </StyledAppLayout>
   );
 }

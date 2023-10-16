@@ -15,7 +15,7 @@ const TableRow = styled.div`
     display: flex;
     flex-direction: column;
     /* row-gap: 0rem; */
-    padding: 2rem 2rem 2rem 0rem;
+    padding: 2rem 2rem 2rem 2rem;
     overflow: hidden;
   }
 

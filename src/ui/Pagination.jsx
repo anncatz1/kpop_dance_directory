@@ -4,7 +4,7 @@ export default function Pagination({ currentPage, totalVideos, onPageChange }) {
   const totalPages = Math.ceil(totalVideos / ITEMS_PER_PAGE);
 
   return (
-    <div className="flex mt-4">
+    <div className="flex my-4">
       {Array.from({ length: totalPages }).map((_, index) => {
         const page = index + 1;
         return (

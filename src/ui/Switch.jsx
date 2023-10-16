@@ -3,7 +3,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { FormGroup, FormControlLabel, Switch } from "@mui/material";
 
 function SwitchButton({ filterField, label }) {
-  const isSmallScreen = useMediaQuery("(max-width:950px)");
+  const isSmallScreen = useMediaQuery("(max-width:955px)");
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterField);
   const isTrueSet = currentFilter === "true";
@@ -23,12 +23,16 @@ function SwitchButton({ filterField, label }) {
             checked={isTrueSet}
             size={isSmallScreen ? "small" : "medium"}
             inputProps={{ "aria-label": "controlled" }}
+            // sx={{ marginLeft: "3px;" }}
           />
         }
         label={isSmallScreen ? "Slowed" : "Show Slowed Tutorials"}
         sx={{
           "& .MuiFormControlLabel-label": {
             fontSize: `${isSmallScreen ? "0.8rem" : "1rem"}`,
+          },
+          "& .MuiSwitch-root": {
+            marginLeft: "12px;",
           },
         }}
       />

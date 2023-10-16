@@ -106,12 +106,21 @@ function VideosTable({
       }
 
       let filteredVideos;
+      console.log(filteredVideos);
       if (filterArtists.length === 0) filteredVideos = videos;
       else {
-        filteredVideos = videos.filter((video) =>
-          filterArtists.includes(video.artist)
-        );
+        filteredVideos = videos.filter((video) => {
+          let splitted = video.artist.split(" X ");
+          if (splitted.length === 1) splitted = video.artist.split(" & ");
+          console.log(splitted);
+          return (
+            filterArtists.includes(video.artist) ||
+            filterArtists.includes(splitted[0]?.trim()) ||
+            filterArtists.includes(splitted[1]?.trim())
+          );
+        });
       }
+      console.log(filteredVideos);
       if (filterDifficulty.length !== 0)
         filteredVideos = filteredVideos.filter((video) =>
           filterDifficulty.includes(video.difficulty)
@@ -141,7 +150,8 @@ function VideosTable({
 
   return (
     <>
-      <span className="mb-2">{totalVideos} results</span>
+      {/* <div className="mb-6"> */}
+      <span className="mb-2 ml-2">{totalVideos} results</span>
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>
@@ -162,7 +172,9 @@ function VideosTable({
         size="large"
         showFirstButton
         showLastButton
+        styles={{ marginBottom: "10px" }}
       />
+      {/* </div> */}
     </>
   );
 }

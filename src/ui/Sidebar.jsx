@@ -193,7 +193,7 @@ function Sidebar({
         </label>
       </div>
 
-      <div>
+      <div className="mt-2">
         {checkboxes.map((checkbox, index) => (
           <div key={index}>
             <label className="form-control">
