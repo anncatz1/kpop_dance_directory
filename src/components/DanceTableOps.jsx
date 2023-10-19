@@ -1,19 +1,12 @@
 import { useState } from "react";
-import { TextField, InputAdornment, Box } from "@mui/material";
+import { TextField, Box, Stack } from "@mui/material";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
 import SearchIcon from "@mui/icons-material/Search";
 
-function DanceTableOps({ searchField, setSearchField }) {
-  const [query, setQuery] = useState("");
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    setSearchField(query);
-  }
-
+function DanceTableOps({ setSearchField }) {
   return (
-    <div className="flex items-center sm:justify-end gap-6 justify-between mb-2">
+    <div className="flex items-end gap-6 justify-between mb-2">
       {/* <SwitchButton filterField="mirrored" label="Mirrored" /> */}
 
       <SwitchButton filterField="slowed" />
@@ -36,36 +29,6 @@ function DanceTableOps({ searchField, setSearchField }) {
           },
         ]}
       />
-
-      <form onSubmit={handleSubmit}>
-        {/* <TextField
-          id="outlined-basic"
-          label="Search"
-          variant="outlined"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        /> */}
-        <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-          <TextField
-            id="outlined-basic"
-            label="Search"
-            variant="standard"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button type="submit">
-            <SearchIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
-          </button>
-        </Box>
-        {/* <button type="submit">Search</button> */}
-      </form>
     </div>
   );
 }

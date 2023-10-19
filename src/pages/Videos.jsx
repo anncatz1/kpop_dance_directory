@@ -5,12 +5,10 @@ import { useState } from "react";
 
 function Videos({
   filterArtists,
-  setFilterArtists,
   filterDifficulty,
-  setFilterDifficulty,
+  searchField,
+  setSearchField,
 }) {
-  const [searchField, setSearchField] = useState("");
-
   return (
     <>
       <Row>

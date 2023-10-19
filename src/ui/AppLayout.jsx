@@ -85,6 +85,8 @@ function AppLayout({
   setFilterArtists,
   filterDifficulty,
   setFilterDifficulty,
+  searchField,
+  setSearchField,
 }) {
   return (
     <StyledAppLayout>
@@ -94,6 +96,8 @@ function AppLayout({
           setFilterArtists={setFilterArtists}
           filterDifficulty={filterDifficulty}
           setFilterDifficulty={setFilterDifficulty}
+          searchField={searchField}
+          setSearchField={setSearchField}
         />
       </HeaderContainer>
       <SidebarContainer>

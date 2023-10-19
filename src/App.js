@@ -14,6 +14,7 @@ const queryClient = new QueryClient();
 function App() {
   const [filterArtists, setFilterArtists] = useState([]);
   const [filterDifficulty, setFilterDifficulty] = useState([]);
+  const [searchField, setSearchField] = useState("");
 
   return (
     <>
@@ -28,6 +29,8 @@ function App() {
                   setFilterArtists={setFilterArtists}
                   filterDifficulty={filterDifficulty}
                   setFilterDifficulty={setFilterDifficulty}
+                  searchField={searchField}
+                  setSearchField={setSearchField}
                 />
               }
             >
@@ -42,6 +45,8 @@ function App() {
                     setFilterArtists={setFilterArtists}
                     filterDifficulty={filterDifficulty}
                     setfilterDifficulty={setFilterDifficulty}
+                    searchField={searchField}
+                    setSearchField={setSearchField}
                   />
                   // </VideosContext.Provider>
                 }

@@ -126,15 +126,31 @@ function VideosTable({ filterArtists, filterDifficulty, searchField }) {
           filterDifficulty.includes(video.difficulty)
         );
 
-      // console.log(searchField);
+      let searchFields = searchField.split(" ");
       let searchVideos = filteredVideos.filter((video) => {
-        return (
-          video.song?.toLowerCase().includes(searchField.toLowerCase()) ||
-          video.artist?.toLowerCase().includes(searchField.toLowerCase())
-          // video.difficulty.includes(searchField)
-        );
+        if (searchFields.length > 1)
+          return (
+            video.song?.toLowerCase().includes(searchField.toLowerCase()) ||
+            video.artist?.toLowerCase().includes(searchField.toLowerCase()) ||
+            ((video.song
+              ?.toLowerCase()
+              .includes(searchFields?.at(0)?.toLowerCase()) ||
+              video.artist
+                ?.toLowerCase()
+                .includes(searchFields?.at(0)?.toLowerCase())) &&
+              (video.song
+                ?.toLowerCase()
+                .includes(searchFields?.at(-1)?.toLowerCase()) ||
+                video.artist
+                  ?.toLowerCase()
+                  .includes(searchFields?.at(-1)?.toLowerCase())))
+          );
+        else
+          return (
+            video.song?.toLowerCase().includes(searchField.toLowerCase()) ||
+            video.artist?.toLowerCase().includes(searchField.toLowerCase())
+          );
       });
-      // console.log(searchVideos);
 
       if (error) throw error;
       setTotalVideos(searchVideos.length);
