@@ -40,12 +40,7 @@ const TableHeader = styled.header`
   }
 `;
 
-function VideosTable({
-  filterArtists,
-  setFilterArtists,
-  filterDifficulty,
-  setFilterDifficulty,
-}) {
+function VideosTable({ filterArtists, filterDifficulty, searchField }) {
   const [totalVideos, setTotalVideos] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
@@ -73,7 +68,14 @@ function VideosTable({
     // isFetching,
     // isPreviousData,
   } = useQuery({
-    queryKey: ["dances", page, sortBy, filterArtists, filterDifficulty],
+    queryKey: [
+      "dances",
+      page,
+      sortBy,
+      filterArtists,
+      filterDifficulty,
+      searchField,
+    ],
     queryFn: () => fetchVideos(),
     keepPreviousData: true,
   });
@@ -106,13 +108,11 @@ function VideosTable({
       }
 
       let filteredVideos;
-      console.log(filteredVideos);
       if (filterArtists.length === 0) filteredVideos = videos;
       else {
         filteredVideos = videos.filter((video) => {
           let splitted = video.artist.split(" X ");
           if (splitted.length === 1) splitted = video.artist.split(" & ");
-          console.log(splitted);
           return (
             filterArtists.includes(video.artist) ||
             filterArtists.includes(splitted[0]?.trim()) ||
@@ -120,17 +120,27 @@ function VideosTable({
           );
         });
       }
-      console.log(filteredVideos);
+
       if (filterDifficulty.length !== 0)
         filteredVideos = filteredVideos.filter((video) =>
           filterDifficulty.includes(video.difficulty)
         );
 
+      // console.log(searchField);
+      let searchVideos = filteredVideos.filter((video) => {
+        return (
+          video.song?.toLowerCase().includes(searchField.toLowerCase()) ||
+          video.artist?.toLowerCase().includes(searchField.toLowerCase())
+          // video.difficulty.includes(searchField)
+        );
+      });
+      // console.log(searchVideos);
+
       if (error) throw error;
-      setTotalVideos(filteredVideos.length);
+      setTotalVideos(searchVideos.length);
 
       const start = (page - 1) * ITEMS_PER_PAGE;
-      const rangeVids = filteredVideos.slice(start, start + ITEMS_PER_PAGE);
+      const rangeVids = searchVideos.slice(start, start + ITEMS_PER_PAGE);
       return rangeVids;
     } catch (error) {
       console.error("Failed to fetch videos:", error);
@@ -150,8 +160,8 @@ function VideosTable({
 
   return (
     <>
-      {/* <div className="mb-6"> */}
       <span className="mb-2 ml-2">{totalVideos} results</span>
+
       <Table role="table">
         <TableHeader role="row">
           <div>Song</div>
@@ -174,7 +184,15 @@ function VideosTable({
         showLastButton
         styles={{ marginBottom: "10px" }}
       />
-      {/* </div> */}
+
+      {/* <TablePagination
+        component="div"
+        count={100}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      /> */}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import VideosTable from "../components/VideosTable";
 import DanceTableOps from "../components/DanceTableOps";
 import Row from "../ui/Row";
+import { useState } from "react";
 
 function Videos({
   filterArtists,
@@ -8,15 +9,19 @@ function Videos({
   filterDifficulty,
   setFilterDifficulty,
 }) {
+  const [searchField, setSearchField] = useState("");
+
   return (
     <>
       <Row>
-        <DanceTableOps />
+        <DanceTableOps
+          searchField={searchField}
+          setSearchField={setSearchField}
+        />
         <VideosTable
           filterArtists={filterArtists}
-          setFilterArtists={setFilterArtists}
           filterDifficulty={filterDifficulty}
-          setFilterDifficulty={setFilterDifficulty}
+          searchField={searchField}
         />
       </Row>
     </>

@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import Select from "./Select";
+import StyledSelect from "./StyledSelect";
 
 function SortBy({ options }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,12 +11,13 @@ function SortBy({ options }) {
   }
 
   return (
-    <Select
+    <StyledSelect
       options={options}
       type="white"
       value={sortBy}
       onChange={handleChange}
       field={"value"}
+      label={"Sort By"}
     />
   );
 }
