@@ -3,7 +3,6 @@ import requests
 from supabase_py import create_client
 import os
 
-# Step 2: Scrape the data
 url = 'https://dbkpop.com/db/k-pop-dance-practice-videos-list/'
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
@@ -11,14 +10,11 @@ soup = BeautifulSoup(response.content, 'html.parser')
 # Assume the data is in a table
 table = soup.find('table')
 
-# Step 3: Store the data
 supabase_url = 'https://onmcnotmyeildgqtsbwl.supabase.co'
 # supabase_url = os.environ.get("SUPABASE_URL")
 # supabase_key = os.environ.get("SUPABASE_KEY")
 supabase_key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ubWNub3RteWVpbGRncXRzYndsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYzNjE0ODEsImV4cCI6MjAxMTkzNzQ4MX0.SN9ZMZxfPFI84rsxCaUVMorkvE51Rv7MSVg7znw5MtA'
 supabase = create_client(supabase_url, supabase_key)
-
-# response = supabase.table('dance_videos').select("*").execute()
 
 # Assume each row in the table contains the data
 for row in table.find_all('tr')[1:]:  # skip header row
@@ -42,4 +38,3 @@ for row in table.find_all('tr')[1:]:  # skip header row
     # if response.error:
     #     print(f'Error: {response.error}')
 
-# Steps 4, 5, and 6 would involve enhancing the data, creating the website, and displaying the data.

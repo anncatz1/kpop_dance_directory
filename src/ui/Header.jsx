@@ -1,7 +1,7 @@
 import React from "react";
 // import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { TextField, Box, Stack } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 function Header({ setSearchField }) {

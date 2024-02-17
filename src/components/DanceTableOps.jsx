@@ -1,10 +1,7 @@
-import { useState } from "react";
-import { TextField, Box, Stack } from "@mui/material";
 import SortBy from "../ui/SortBy";
 import SwitchButton from "../ui/Switch";
-import SearchIcon from "@mui/icons-material/Search";
 
-function DanceTableOps({ setSearchField }) {
+function DanceTableOps() {
   return (
     <div className="flex items-end gap-6 justify-between mb-2">
       {/* <SwitchButton filterField="mirrored" label="Mirrored" /> */}

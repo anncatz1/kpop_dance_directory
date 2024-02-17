@@ -1,7 +1,6 @@
 import VideosTable from "../components/VideosTable";
 import DanceTableOps from "../components/DanceTableOps";
 import Row from "../ui/Row";
-import { useState } from "react";
 
 function Videos({
   filterArtists,

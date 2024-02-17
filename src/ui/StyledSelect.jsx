@@ -1,23 +1,4 @@
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
-// import styled from "styled-components";
-
-// const StyledSelect = styled.select`
-//   font-size: 1rem;
-//   padding: 0.8rem 1.2rem;
-//   border: 1px solid
-//     ${(props) =>
-//       props.type === "white"
-//         ? "var(--color-grey-100)"
-//         : "var(--color-grey-300)"};
-//   border-radius: var(--border-radius-sm);
-//   background-color: var(--color-grey-0);
-//   font-weight: 500;
-//   box-shadow: var(--shadow-sm);
-
-//   @media (max-width: 900px) {
-//     font-size: 0.8rem;
-//   }
-// `;
 
 function StyledSelect({ options, value, onChange, field, label, ...props }) {
   return (
@@ -30,6 +11,7 @@ function StyledSelect({ options, value, onChange, field, label, ...props }) {
           value={value}
           onChange={onChange}
           {...props}
+          // defaultValue={options[0].value}
         >
           {options.map((item) => (
             <MenuItem value={item.value} key={item.value}>
@@ -39,13 +21,6 @@ function StyledSelect({ options, value, onChange, field, label, ...props }) {
         </Select>
       </FormControl>
     </>
-    // <StyledSelect value={value} onChange={onChange} >
-    //   {options.map((item) => (
-    //     <option value={item.value} key={item.value}>
-    //       {item.label}
-    //     </option>
-    //   ))}
-    // </StyledSelect>
   );
 }
 
